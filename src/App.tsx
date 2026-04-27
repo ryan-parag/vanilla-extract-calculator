@@ -122,24 +122,14 @@ export default function App() {
           </aside>
         </div>
 
-        {/* Mobile jar (visible on small screens) */}
-        <div className="lg:hidden mt-5">
-          <div className="card">
-            <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide mb-3">
-              Strength Preview
-            </p>
-            <JarVisual fold={calc.fold} formula={calc.formula} />
-          </div>
-        </div>
-
-        <footer className="mt-8 flex flex-col md:flex-row gap-1 justify-between text-center text-xs text-zinc-400 dark:text-zinc-600">
+        <footer className="mt-8 flex flex-col md:flex-row gap-4 items-center justify-between text-center text-xs text-zinc-600 dark:text-zinc-400">
           <span>
             Formulas based on{' '}
             <a
               href="https://danieltalsky.com/vanilla"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline hover:text-vanilla-600 dark:hover:text-vanilla-500"
+              className="underline text-zinc-600 dark:text-zinc-400 hover:text-vanilla-600 dark:hover:text-vanilla-500"
             >
               danieltalsky.com/vanilla
             </a>
