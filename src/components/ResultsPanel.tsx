@@ -16,7 +16,7 @@ interface ResultsPanelProps {
 
 const KeyValPair = ({ k, v }: { k: string; v: string }) => (
   <div className="grid grid-cols-3 gap-1">
-    <div className="text-sm text-zinc-600 dark:text-zinc-400">{k}</div>
+    <div className="text-sm text-vanilla-800 dark:text-vanilla-100">{k}</div>
     <div className="text-sm font-semibold text-vanilla-700 dark:text-vanilla-400 col-span-2">{v}</div>
   </div>
 )

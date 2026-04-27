@@ -1,9 +1,11 @@
+import React, { useState } from 'react'
 import { NumberField } from '@base-ui/react/number-field'
 import { Select } from '@base-ui/react/select'
 import { ToggleGroup } from '@base-ui/react/toggle-group'
 import { Toggle } from '@base-ui/react/toggle'
-import { CaretDown, Check, CalculatorIcon } from '@phosphor-icons/react'
+import { CaretDown, Check, CalculatorIcon, JarLabel, Drop, CoffeeBean, CaretRight } from '@phosphor-icons/react'
 import { type CalcMode, type VolumeUnit, type WeightUnit, VOLUME_UNITS, WEIGHT_UNITS } from '../hooks/useVanillaCalc'
+import { motion } from 'motion/react'
 
 interface InputPanelProps {
   mode: CalcMode
@@ -25,10 +27,10 @@ interface InputPanelProps {
   setVanillaUnit: (u: WeightUnit) => void
 }
 
-const MODES: { value: CalcMode; label: string; description: string }[] = [
-  { value: 'container', label: 'Container Size',  description: "I know the volume of my container" },
-  { value: 'alcohol',   label: 'Alcohol Amount',  description: "I know how much alcohol I have" },
-  { value: 'vanilla',   label: 'Vanilla Amount',  description: "I know how many vanilla beans I have" },
+const MODES: { value: CalcMode; label: string; description: string; icon: React.ReactNode }[] = [
+  { value: 'container', label: 'Container Size',  description: "Volume of container", icon: <JarLabel size={16} weight="bold" /> },
+  { value: 'alcohol',   label: 'Alcohol Amount',  description: "Volume of alcohol", icon: <Drop size={16} weight="bold" /> },
+  { value: 'vanilla',   label: 'Vanilla Amount',  description: "Weight of vanilla beans", icon: <CoffeeBean size={16} weight="bold" /> },
 ]
 
 const selectTriggerCls = `
@@ -151,74 +153,101 @@ export function InputPanel({
   alcoholValue, setAlcoholValue, alcoholUnit, setAlcoholUnit,
   vanillaValue, setVanillaValue, vanillaUnit, setVanillaUnit,
 }: InputPanelProps) {
+
+  const [open, setOpen] = useState(true)
+
   return (
     <div className="space-y-4">
       <div className="space-y-3">
-        <div className="flex items-center gap-2 text-zinc-700 dark:text-zinc-300">
-          <CalculatorIcon size={20} weight="bold" />
-          <span className="text-lg font-bold">
-            Calculate By
-          </span>
-        </div>
-        <ToggleGroup
-          value={[mode]}
-          onValueChange={(vals) => {
-            if (vals.length > 0) onModeChange(vals[0] as CalcMode)
-          }}
-          className="grid grid-cols-2 gap-2"
+        <button
+          className="px-4 py-2 hover:bg-black/5 dark:hover:bg-white/5 transition w-full flex items-center gap-2 text-zinc-700 dark:text-zinc-300"
+          onClick={() => setOpen(!open)}
         >
-          {MODES.map((m) => (
-            <Toggle
-              key={m.value}
-              value={m.value}
-              aria-label={m.label}
-              className="toggle-card"
+          <div className="flex items-center w-full gap-2">
+            <CalculatorIcon size={20} weight="bold" />
+            <span className="text-lg font-bold">
+              Calculate By
+            </span>
+          </div>
+          <motion.div
+            animate={{ rotate: open ? 90 : 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <CaretRight size={16} weight="bold" />
+          </motion.div>
+        </button>
+        {
+          open && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              transition={{ duration: 0.2 }}
+              className="px-4 py-3"
             >
-              <p className="toggle-card__title">
-                {m.label}
-              </p>
-              <p className="toggle-card__description">{m.description}</p>
-            </Toggle>
-          ))}
-        </ToggleGroup>
-      </div>
+              <ToggleGroup
+                value={[mode]}
+                onValueChange={(vals) => {
+                  if (vals.length > 0) onModeChange(vals[0] as CalcMode)
+                }}
+                className="grid grid-cols-2 gap-2"
+              >
+                {MODES.map((m) => (
+                  <Toggle
+                    key={m.value}
+                    value={m.value}
+                    aria-label={m.label}
+                    className="toggle-card"
+                  >
+                    <div className="h-10 w-10 p-2 inline-flex items-center justify-center rounded-full text-xs font-bold bg-vanilla-500/20 text-vanilla-700 dark:text-vanilla-300 mb-1">
+                      {m.icon}
+                    </div>
+                    <p className="toggle-card__title">
+                      {m.label}
+                    </p>
+                    <p className="toggle-card__description">{m.description}</p>
+                  </Toggle>
+                ))}
+              </ToggleGroup>
+              <div className="pt-1">
+                {mode === 'container' && (
+                  <div className="space-y-1">
+                    <label className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Container / Jar Size</label>
+                    <div className="flex gap-2">
+                      <NumInput value={containerValue} onChange={setContainerValue} />
+                      <VolumeSelect value={containerUnit} onChange={setContainerUnit} />
+                    </div>
+                    <p className="text-xs text-zinc-400 dark:text-zinc-500">
+                      Alcohol amount will be calculated accounting for bean displacement (~0.9ml/g)
+                    </p>
+                  </div>
+                )}
 
-      <div className="pt-1">
-        {mode === 'container' && (
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Container / Jar Size</label>
-            <div className="flex gap-2">
-              <NumInput value={containerValue} onChange={setContainerValue} />
-              <VolumeSelect value={containerUnit} onChange={setContainerUnit} />
-            </div>
-            <p className="text-xs text-zinc-400 dark:text-zinc-500">
-              Alcohol amount will be calculated accounting for bean displacement (~0.9ml/g)
-            </p>
-          </div>
-        )}
+                {mode === 'alcohol' && (
+                  <div className="space-y-1">
+                    <label className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Alcohol Amount</label>
+                    <div className="flex gap-2">
+                      <NumInput value={alcoholValue} onChange={setAlcoholValue} />
+                      <VolumeSelect value={alcoholUnit} onChange={setAlcoholUnit} />
+                    </div>
+                    <p className="text-xs text-zinc-400 dark:text-zinc-500">
+                      Net liquid volume of alcohol (before bean displacement)
+                    </p>
+                  </div>
+                )}
 
-        {mode === 'alcohol' && (
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Alcohol Amount</label>
-            <div className="flex gap-2">
-              <NumInput value={alcoholValue} onChange={setAlcoholValue} />
-              <VolumeSelect value={alcoholUnit} onChange={setAlcoholUnit} />
-            </div>
-            <p className="text-xs text-zinc-400 dark:text-zinc-500">
-              Net liquid volume of alcohol (before bean displacement)
-            </p>
-          </div>
-        )}
-
-        {mode === 'vanilla' && (
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Vanilla Beans Weight</label>
-            <div className="flex gap-2">
-              <NumInput value={vanillaValue} onChange={setVanillaValue} />
-              <WeightSelect value={vanillaUnit} onChange={setVanillaUnit} />
-            </div>
-          </div>
-        )}
+                {mode === 'vanilla' && (
+                  <div className="space-y-1">
+                    <label className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Vanilla Beans Weight</label>
+                    <div className="flex gap-2">
+                      <NumInput value={vanillaValue} onChange={setVanillaValue} />
+                      <WeightSelect value={vanillaUnit} onChange={setVanillaUnit} />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          )
+        }
       </div>
     </div>
   )

@@ -23,7 +23,7 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['iA Writer Quattro', 'system-ui', 'serif'],
       },
     },
   },

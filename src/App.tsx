@@ -7,6 +7,7 @@ import { ResultsPanel } from './components/ResultsPanel'
 import { JarVisual } from './components/JarVisual'
 import { DarkModeToggle } from './components/DarkModeToggle'
 import Logo from './components/Logo'
+import { motion } from "motion/react"
 
 function useDarkMode() {
   const [dark, setDark] = useState(() => {
@@ -32,19 +33,24 @@ export default function App() {
       <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Header */}
         <header className="flex items-center justify-between mb-8">
-          <div>
-            <div className="flex items-center gap-2">
-              <div className="inline-flex h-10 w-10 p-1 border border-zinc-300 dark:border-zinc-800 relative rounded-xl overflow-hidden bg-black">
+          <div className="flex items-center flex-col w-full">
+            <div className="flex flex-col text-center items-center gap-0">
+              <motion.div
+                className="inline-flex h-10 w-10 lg:h-14 lg:w-14 p-1 border border-zinc-300 dark:border-zinc-800 relative rounded-xl lg:rounded-2xl overflow-hidden bg-black mb-2 lg:mb-4 shadow-2xl shadow-vanilla-500/70"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.24, delay: 0.2, type: "spring", stiffness: 150 }}
+              >
                 <div className="absolute top-0 bottom-0 left-0 right-0 bg-gradient-to-b from-white/20 to-transparent"/>
                 <Logo />
-              </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-white tracking-tight">
+              </motion.div>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-zinc-950 dark:text-white tracking-tight">
                 Vanilla Extract Calculator
               </h1>
-            </div>
-            <p className="text-base text-zinc-500 dark:text-zinc-400 mt-1">
+              <p className="text-base lg:text-lg mt-1 lg:mt-2 text-zinc-500 dark:text-zinc-400">
               Precision recipes for homemade extract
             </p>
+            </div>
           </div>
         </header>
 
@@ -82,7 +88,7 @@ export default function App() {
             </section>
 
             {/* Results Card */}
-            <section className="card bg-zinc-100 dark:bg-zinc-900">
+            <section className="card px-4 py-3 bg-zinc-100 dark:bg-zinc-900">
               <ResultsPanel
                 result={calc.result}
                 formula={calc.formula}
@@ -97,7 +103,7 @@ export default function App() {
 
           {/* Sidebar: Jar Visual */}
           <aside className="hidden lg:flex flex-col items-center gap-4 sticky top-8">
-            <div className="card">
+            <div className="card p-4 w-full">
               <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide text-center mb-3">
                 Strength Preview
               </p>

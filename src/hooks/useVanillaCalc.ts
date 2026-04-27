@@ -6,28 +6,31 @@ export type CalcMode = 'container' | 'alcohol' | 'vanilla'
 export type VolumeUnit = 'ml' | 'floz' | 'cup' | 'pint' | 'quart' | 'liter' | 'gallon'
 export type WeightUnit = 'g' | 'oz'
 
-export const FORMULAS: Record<Formula, { label: string; beansPerHundredMl: number; description: string }> = {
+export const FORMULAS: Record<Formula, { label: string; beansPerHundredMl: number; description: string; recommended: boolean }> = {
   fda: { label: 'FDA Standard',
     beansPerHundredMl: 10.0,
-    description: 'USA Legal standard minimum'
+    description: 'USA Legal standard minimum',
+    recommended: false
   },
   coop: {
     label: 'Home cooks',
     beansPerHundredMl: 12.0,
-    description: '20% stronger, easy conversions'
+    description: '20% stronger, easy conversions',
+    recommended: true
   },
   budget: {
     label: 'Budget Grade A',
     beansPerHundredMl: 10.5,
-    description: 'Slightly above FDA for Grade A beans'
+    description: 'Slightly above FDA',
+    recommended: false
   },
 }
 
-export const FOLDS: { value: Fold; label: string; description: string }[] = [
-  { value: 1,   label: 'Single Fold', description: 'Classic strength' },
-  { value: 1.5, label: '1.5 Fold',    description: 'Moderately stronger' },
-  { value: 2,   label: 'Double Fold', description: 'Twice the strength' },
-  { value: 3,   label: 'Triple Fold', description: 'Intensely concentrated' },
+export const FOLDS: { value: Fold; label: string; description: string, recommended: boolean }[] = [
+  { value: 1,   label: 'Single Fold', description: 'Classic strength', recommended: false },
+  { value: 1.5, label: '1.5 Fold',    description: 'Moderately stronger', recommended: false },
+  { value: 2,   label: 'Double Fold', description: 'Twice the strength', recommended: true },
+  { value: 3,   label: 'Triple Fold', description: 'Intensely concentrated', recommended: false },
 ]
 
 export const VOLUME_UNITS: Record<VolumeUnit, { label: string; toMl: number }> = {
