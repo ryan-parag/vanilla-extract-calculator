@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    opacity: 1;
+  }
+
+  .card {
+    @apply bg-white dark:bg-zinc-950 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-900 shadow-sm p-4;
+  }
+
+  .toggle-card {
+    @apply px-3 py-3 rounded-lg border text-left transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-1 border-zinc-300 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 bg-white dark:bg-zinc-950 hover:bg-zinc-100 dark:hover:bg-white/5 data-[pressed]:border-vanilla-500 data-[pressed]:bg-vanilla-50 dark:data-[pressed]:bg-vanilla-950/40 dark:data-[pressed]:border-vanilla-400 data-[pressed]:text-vanilla-700 dark:data-[pressed]:text-vanilla-400 text-zinc-700 dark:text-zinc-300;
+  }
+
+  .toggle-card__title {
+    @apply font-semibold text-sm;
+  }
+
+  .toggle-card__description {
+    @apply text-xs mt-0.5;
+  }
+}
