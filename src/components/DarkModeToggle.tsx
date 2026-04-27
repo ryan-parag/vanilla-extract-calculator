@@ -1,6 +1,3 @@
-import { Button } from '@base-ui/react/button'
-import { Sun, Moon } from '@phosphor-icons/react'
-
 interface DarkModeToggleProps {
   dark: boolean
   onToggle: () => void
