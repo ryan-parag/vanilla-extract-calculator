@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { ToggleGroup } from '@base-ui/react/toggle-group'
 import { Toggle } from '@base-ui/react/toggle'
 import { FOLDS, type Fold } from '../hooks/useVanillaCalc'

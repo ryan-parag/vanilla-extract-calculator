@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { ToggleGroup } from '@base-ui/react/toggle-group'
 import { Toggle } from '@base-ui/react/toggle'
 import { FORMULAS, type Formula } from '../hooks/useVanillaCalc'
@@ -11,9 +11,9 @@ interface FormulaSelectorProps {
   onChange: (f: Formula) => void
 }
 
-const IconRender = ({ formula }: { formula: Formula }) => {
+const IconRender = ({ formula }: { formula: string }) => {
 
-  const getIcon = (x) => {
+  const getIcon = (x: string) => {
     switch(x) {
       case "FDA Standard":
         return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><g clip-path="url(#clip0_143_16565)"><path d="M1.23519 16.8275H0.147461V7.1876H9.71032C13.905 7.1876 14.5669 10.9558 14.5669 10.9558L16.9208 7.1876H19.3874L23.8961 14.4965L22.4837 16.8272H16.5385V15.6644H23.1882L18.1514 7.1875C18.1514 7.1875 14.8319 12.9636 14.1193 14.0888C13.4066 15.2141 12.0679 16.8269 9.77504 16.8269H6.2238V11.0881H7.34907V15.6641H9.93713C11.0817 15.6641 13.5379 14.6889 13.5379 11.932C13.5379 9.1752 10.9123 8.31252 10.0496 8.31252H1.23509V16.8267L1.23519 16.8275ZM1.61027 16.8275V12.7391H5.81118V13.8643H2.73549V16.8275H1.61022L1.61027 16.8275ZM5.81118 12.2514V11.0887H2.73549V9.85537H9.8129C10.8738 9.85537 12.0002 10.7136 12.0002 11.9701C12.0002 13.2266 10.8617 14.0893 10.0498 14.0893H8.94655V11.0886H7.78378V15.2146H10.0498C11.485 15.2146 13.1442 13.9689 13.1442 12.0076C13.1442 10.0651 11.6352 8.72562 9.83077 8.72562H1.61052V12.2514H5.81143L5.81118 12.2514ZM12.9938 16.8275L18.1514 8.31332L22.3898 15.2146H16.5388V14.0893H20.3271L18.1516 10.5448L14.5696 16.8276H12.9942L12.9938 16.8275Z" fill="currentColor"/></g><defs><clipPath id="clip0_143_16565"><rect width="24" height="9.89147" fill="currentColor" transform="translate(0 7.05469)"/></clipPath></defs></svg>
