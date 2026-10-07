@@ -1,15 +1,31 @@
 @font-face {
-  font-family: 'iA Writer Quattro';
-  src: url('/fonts/iAWriterQuattroV.ttf') format('truetype');
-  font-weight: 100 900;
+  font-family: 'PP Fraktion Sans';
+  src: url('/fonts/PPFraktionSans-Light.otf') format('opentype');
+  font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'iA Writer Quattro';
-  src: url('/fonts/iAWriterQuattroV-Italic.ttf') format('truetype');
-  font-weight: 100 900;
+  font-family: 'PP Fraktion Sans';
+  src: url('/fonts/PPFraktionSans-LightItalic.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Fraktion Sans';
+  src: url('/fonts/PPFraktionSans-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Fraktion Sans';
+  src: url('/fonts/PPFraktionSans-BoldItalic.otf') format('opentype');
+  font-weight: 700;
   font-style: italic;
   font-display: swap;
 }
@@ -19,12 +35,28 @@
 @tailwind utilities;
 
 @layer base {
+  /* Vanilla until a page applies its own palette */
+  :root {
+    --accent-50: 253 248 240;
+    --accent-100: 250 239 216;
+    --accent-200: 243 217 168;
+    --accent-300: 233 190 113;
+    --accent-400: 221 158 62;
+    --accent-500: 212 134 31;
+    --accent-600: 184 107 21;
+    --accent-700: 151 79 20;
+    --accent-800: 122 64 23;
+    --accent-900: 100 54 23;
+    --accent-950: 55 26 9;
+  }
+
   * {
     box-sizing: border-box;
   }
 
   body {
-    font-family: 'iA Writer Quattro', system-ui, serif;
+    @apply bg-white dark:bg-black;
+    font-family: 'PP Fraktion Sans', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -39,7 +71,7 @@
   }
 
   .toggle-card {
-    @apply px-3 py-3 rounded-lg border text-left transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-1 border-zinc-300 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 bg-white dark:bg-zinc-950 hover:bg-zinc-100 dark:hover:bg-white/5 data-[pressed]:border-vanilla-500 data-[pressed]:bg-vanilla-50 dark:data-[pressed]:bg-vanilla-950/40 dark:data-[pressed]:border-vanilla-400 data-[pressed]:text-vanilla-700 dark:data-[pressed]:text-vanilla-400 text-zinc-700 dark:text-zinc-300;
+    @apply px-3 py-3 rounded-lg border text-left transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-1 border-zinc-300 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 bg-white dark:bg-zinc-950 hover:bg-zinc-100 dark:hover:bg-white/5 data-[pressed]:border-accent-500 data-[pressed]:bg-accent-50 dark:data-[pressed]:bg-accent-950/40 dark:data-[pressed]:border-accent-400 data-[pressed]:text-accent-700 dark:data-[pressed]:text-accent-400 text-zinc-700 dark:text-zinc-300;
   }
 
   .toggle-card__title {
@@ -48,5 +80,16 @@
 
   .toggle-card__description {
     @apply text-xs mt-0.5;
+  }
+}
+
+/* Print the recipe itself: navigation, inputs, and buttons are hidden with print:hidden */
+@media print {
+  @page {
+    margin: 14mm;
+  }
+
+  .card {
+    box-shadow: none;
   }
 }

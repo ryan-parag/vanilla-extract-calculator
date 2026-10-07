@@ -1,4 +1,6 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
+import { loadJson, saveJson } from '../lib/storage'
+import { numberParam, oneOf, readParams, writeParams } from '../lib/urlState'
 
 export type Formula = 'fda' | 'coop' | 'budget'
 export type Fold = 1 | 1.5 | 2 | 3
@@ -7,7 +9,7 @@ export type VolumeUnit = 'ml' | 'floz' | 'cup' | 'pint' | 'quart' | 'liter' | 'g
 export type WeightUnit = 'g' | 'oz'
 
 export const FORMULAS: Record<Formula, { label: string; beansPerHundredMl: number; description: string; recommended: boolean }> = {
-  fda: { label: 'FDA Standard',
+  fda: { label: 'FDA standard',
     beansPerHundredMl: 10.0,
     description: 'USA Legal standard minimum',
     recommended: false
@@ -27,10 +29,10 @@ export const FORMULAS: Record<Formula, { label: string; beansPerHundredMl: numbe
 }
 
 export const FOLDS: { value: Fold; label: string; description: string, recommended: boolean }[] = [
-  { value: 1,   label: 'Single Fold', description: 'Classic strength', recommended: false },
-  { value: 1.5, label: '1.5 Fold',    description: 'Moderately stronger', recommended: false },
-  { value: 2,   label: 'Double Fold', description: 'Twice the strength', recommended: true },
-  { value: 3,   label: 'Triple Fold', description: 'Intensely concentrated', recommended: false },
+  { value: 1,   label: 'Single fold', description: 'Classic strength', recommended: false },
+  { value: 1.5, label: '1.5 fold',    description: 'Moderately stronger', recommended: false },
+  { value: 2,   label: 'Double fold', description: 'Twice the strength', recommended: true },
+  { value: 3,   label: 'Triple fold', description: 'Intensely concentrated', recommended: false },
 ]
 
 export const VOLUME_UNITS: Record<VolumeUnit, { label: string; toMl: number }> = {
@@ -78,22 +80,83 @@ export interface CalcResult {
   containerDisplay: string
 }
 
+const STORAGE_KEY = 'recipe:vanilla-extract'
+
+interface SavedInputs {
+  formula: Formula
+  fold: Fold
+  mode: CalcMode
+  containerValue: number
+  containerUnit: VolumeUnit
+  alcoholValue: number
+  alcoholUnit: VolumeUnit
+  vanillaValue: number
+  vanillaUnit: WeightUnit
+  volumeDisplayUnit: VolumeUnit
+  weightDisplayUnit: WeightUnit
+}
+
+const DEFAULTS: SavedInputs = {
+  formula: 'fda', fold: 1, mode: 'container',
+  containerValue: 250, containerUnit: 'ml',
+  alcoholValue: 250, alcoholUnit: 'ml',
+  vanillaValue: 25, vanillaUnit: 'g',
+  volumeDisplayUnit: 'ml', weightDisplayUnit: 'g',
+}
+
+// Starting inputs: a shared link wins, then this browser's last visit, then the defaults
+function initialInputs(): SavedInputs {
+  const saved = { ...DEFAULTS, ...loadJson<Partial<SavedInputs>>(STORAGE_KEY) }
+  const params = readParams()
+  const volumeUnits = Object.keys(VOLUME_UNITS) as VolumeUnit[]
+  const weightUnits = Object.keys(WEIGHT_UNITS) as WeightUnit[]
+  const fold = numberParam(params, 'fold')
+  const mode = oneOf(params, 'm', ['container', 'alcohol', 'vanilla'] as const) ?? saved.mode
+  const amount = numberParam(params, 'a')
+  const volumeUnit = oneOf(params, 'u', volumeUnits)
+  const weightUnit = oneOf(params, 'u', weightUnits)
+
+  return {
+    ...saved,
+    formula: oneOf(params, 'f', Object.keys(FORMULAS) as Formula[]) ?? saved.formula,
+    fold: FOLDS.some(f => f.value === fold) ? fold as Fold : saved.fold,
+    mode,
+    ...(mode === 'container' ? { containerValue: amount ?? saved.containerValue, containerUnit: volumeUnit ?? saved.containerUnit } : {}),
+    ...(mode === 'alcohol' ? { alcoholValue: amount ?? saved.alcoholValue, alcoholUnit: volumeUnit ?? saved.alcoholUnit } : {}),
+    ...(mode === 'vanilla' ? { vanillaValue: amount ?? saved.vanillaValue, vanillaUnit: weightUnit ?? saved.vanillaUnit } : {}),
+  }
+}
+
 export function useVanillaCalc() {
-  const [formula, setFormula] = useState<Formula>('fda')
-  const [fold, setFold] = useState<Fold>(1)
-  const [mode, setMode] = useState<CalcMode>('container')
+  const [initial] = useState(initialInputs)
+  const [formula, setFormula] = useState<Formula>(initial.formula)
+  const [fold, setFold] = useState<Fold>(initial.fold)
+  const [mode, setMode] = useState<CalcMode>(initial.mode)
 
-  const [containerValue, setContainerValue] = useState<number>(250)
-  const [containerUnit, setContainerUnit] = useState<VolumeUnit>('ml')
+  const [containerValue, setContainerValue] = useState<number>(initial.containerValue)
+  const [containerUnit, setContainerUnit] = useState<VolumeUnit>(initial.containerUnit)
 
-  const [alcoholValue, setAlcoholValue] = useState<number>(250)
-  const [alcoholUnit, setAlcoholUnit] = useState<VolumeUnit>('ml')
+  const [alcoholValue, setAlcoholValue] = useState<number>(initial.alcoholValue)
+  const [alcoholUnit, setAlcoholUnit] = useState<VolumeUnit>(initial.alcoholUnit)
 
-  const [vanillaValue, setVanillaValue] = useState<number>(25)
-  const [vanillaUnit, setVanillaUnit] = useState<WeightUnit>('g')
+  const [vanillaValue, setVanillaValue] = useState<number>(initial.vanillaValue)
+  const [vanillaUnit, setVanillaUnit] = useState<WeightUnit>(initial.vanillaUnit)
 
-  const [volumeDisplayUnit, setVolumeDisplayUnit] = useState<VolumeUnit>('ml')
-  const [weightDisplayUnit, setWeightDisplayUnit] = useState<WeightUnit>('g')
+  const [volumeDisplayUnit, setVolumeDisplayUnit] = useState<VolumeUnit>(initial.volumeDisplayUnit)
+  const [weightDisplayUnit, setWeightDisplayUnit] = useState<WeightUnit>(initial.weightDisplayUnit)
+
+  // Remember inputs for next time, and keep the link shareable
+  useEffect(() => {
+    saveJson(STORAGE_KEY, {
+      formula, fold, mode, containerValue, containerUnit, alcoholValue, alcoholUnit,
+      vanillaValue, vanillaUnit, volumeDisplayUnit, weightDisplayUnit,
+    } satisfies SavedInputs)
+    const [amount, unit] = mode === 'container' ? [containerValue, containerUnit]
+      : mode === 'alcohol' ? [alcoholValue, alcoholUnit]
+      : [vanillaValue, vanillaUnit]
+    writeParams({ f: formula, fold, m: mode, a: amount, u: unit })
+  }, [formula, fold, mode, containerValue, containerUnit, alcoholValue, alcoholUnit,
+      vanillaValue, vanillaUnit, volumeDisplayUnit, weightDisplayUnit])
 
   const result = useMemo<CalcResult>(() => {
     const baseRatio = FORMULAS[formula].beansPerHundredMl * fold // g per 100ml

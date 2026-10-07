@@ -8,22 +8,23 @@ export default {
   theme: {
     extend: {
       colors: {
-        vanilla: {
-          50:  '#fdf8f0',
-          100: '#faefd8',
-          200: '#f3d9a8',
-          300: '#e9be71',
-          400: '#dd9e3e',
-          500: '#d4861f',
-          600: '#b86b15',
-          700: '#974f14',
-          800: '#7a4017',
-          900: '#643617',
-          950: '#371a09',
+        // Set per page from src/lib/palettes.ts
+        accent: {
+          50: 'rgb(var(--accent-50) / <alpha-value>)',
+          100: 'rgb(var(--accent-100) / <alpha-value>)',
+          200: 'rgb(var(--accent-200) / <alpha-value>)',
+          300: 'rgb(var(--accent-300) / <alpha-value>)',
+          400: 'rgb(var(--accent-400) / <alpha-value>)',
+          500: 'rgb(var(--accent-500) / <alpha-value>)',
+          600: 'rgb(var(--accent-600) / <alpha-value>)',
+          700: 'rgb(var(--accent-700) / <alpha-value>)',
+          800: 'rgb(var(--accent-800) / <alpha-value>)',
+          900: 'rgb(var(--accent-900) / <alpha-value>)',
+          950: 'rgb(var(--accent-950) / <alpha-value>)',
         },
       },
       fontFamily: {
-        sans: ['iA Writer Quattro', 'system-ui', 'serif'],
+        sans: ['PP Fraktion Sans', 'system-ui', 'sans-serif'],
       },
     },
   },

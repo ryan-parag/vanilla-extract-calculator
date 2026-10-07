@@ -56,7 +56,7 @@ export function FoldSelector({ value, onChange }: FoldSelectorProps) {
               >
                 {
                   f.recommended && (
-                    <div className="p-1 bg-vanilla-500/20 text-vanilla-700 dark:text-vanilla-500 absolute top-0 right-0 inline-flex items-center justify-center rounded-bl-md text-[10px] uppercase font-semibold tracking-wide gap-1">
+                    <div className="p-1 bg-accent-500/20 text-accent-700 dark:text-accent-500 absolute top-0 right-0 inline-flex items-center justify-center rounded-bl-md text-[10px] uppercase font-semibold tracking-wide gap-1">
                       <Sparkle
                         size={14}
                         weight="bold"
@@ -65,7 +65,7 @@ export function FoldSelector({ value, onChange }: FoldSelectorProps) {
                     </div>
                   )
                 }
-                <div className="h-10 w-10 inline-flex items-center justify-center rounded-full text-xs font-black bg-vanilla-500/20 text-vanilla-700 dark:text-vanilla-300 mb-1">
+                <div className="h-10 w-10 inline-flex items-center justify-center rounded-full text-xs font-black bg-accent-500/20 text-accent-700 dark:text-accent-300 mb-1">
                   x{f.value}
                 </div>
                 <div className="relative">

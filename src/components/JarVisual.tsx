@@ -73,7 +73,7 @@ export function JarVisual({ fold }: JarVisualProps) {
           fill="rgba(255,255,255,0.08)"
           stroke="rgba(180,140,80,0.5)"
           strokeWidth="2"
-          className="dark:stroke-vanilla-600/60"
+          className="dark:stroke-accent-600/60"
         />
 
         {/* Liquid fill */}
@@ -114,7 +114,7 @@ export function JarVisual({ fold }: JarVisualProps) {
           height="12"
           rx="4"
           fill="#78350f"
-          className="dark:fill-vanilla-800"
+          className="dark:fill-accent-800"
         />
         <rect
           x={(jarW - neckW) / 2 + 8}
@@ -123,12 +123,12 @@ export function JarVisual({ fold }: JarVisualProps) {
           height="8"
           rx="3"
           fill="#92400e"
-          className="dark:fill-vanilla-700"
+          className="dark:fill-accent-700"
         />
       </svg>
 
       <div className="text-center">
-        <p className="text-xs font-medium text-vanilla-700 dark:text-vanilla-400">{label}</p>
+        <p className="text-xs font-medium text-accent-700 dark:text-accent-400">{label}</p>
         <p className="text-xs text-zinc-500 dark:text-zinc-400">{fillPercent}% intensity</p>
       </div>
     </div>
