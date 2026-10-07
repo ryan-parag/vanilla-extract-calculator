@@ -58,7 +58,7 @@ export function IngredientList({ current, onNavigate }: IngredientListProps) {
                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400
                 ${holdsCurrent
                   ? 'text-accent-800 dark:text-accent-200'
-                  : 'text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'}
+                  : 'text-zinc-700 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-50'}
               `}
             >
               <motion.span animate={{ rotate: open ? 90 : 0 }} transition={{ duration: 0.2 }} className="inline-flex">

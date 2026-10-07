@@ -29,17 +29,17 @@ export function HomePage() {
         </p>
       </header>
 
-      <ol className="grid sm:grid-cols-3 gap-3">
+      <ol className="p-6 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-transparent grid sm:grid-cols-3 gap-6 rounded-lg">
         {HOW_IT_WORKS.map((s, i) => (
           <li key={s.title} className="space-y-2">
             <div className="flex items-center gap-2">
               <span className="h-7 w-7 inline-flex items-center justify-center rounded-full bg-accent-500/20 text-accent-700 dark:text-accent-300">
                 <s.icon size={16} weight="bold" />
               </span>
-              <span className="text-xs font-semibold text-zinc-400 dark:text-zinc-500">Step {i + 1}</span>
+              <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-400">Step {i + 1}</span>
             </div>
-            <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{s.title}</p>
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">{s.body}</p>
+            <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100">{s.title}</p>
+            <p className="text-base text-zinc-700 dark:text-zinc-300">{s.body}</p>
           </li>
         ))}
       </ol>

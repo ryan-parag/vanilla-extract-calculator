@@ -22,12 +22,17 @@ export function AboutPage() {
 
   return (
     <div className="space-y-5 max-w-3xl">
-      <p className="text-base text-zinc-600 dark:text-zinc-400">
-        This started as a vanilla extract calculator and grew into a set of calculators for staples
-        you can make at home instead of buying: extracts, cultured dairy, butter, sugars, and baking
-        swaps. Each one scales a recipe to the amount you have or the amount you need, and walks you
-        through making it.
-      </p>
+      <div className="p-6 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-transparent text-zinc-900 dark:text-white flex flex-col gap-2">
+        <p>👋 Hey, I'm <a href="https://ryanparag.com" target="_blank" rel="noopener noreferrer" className="underline">Ryan Parag</a>!
+        </p>
+        <p>I'm a product designer living in Sunny 🌞 Tampa Bay.I strive to help build useful products with an interdisciplinary skillset, bred from my fascination of systems, art, and code.</p>
+        <p>
+          This started as a vanilla extract calculator and grew into a set of calculators for staples
+          you can make at home instead of buying: extracts, cultured dairy, butter, sugars, and baking
+          swaps. Each one scales a recipe to the amount you have or the amount you need, and walks you
+          through making it.
+        </p>
+      </div>
 
       <Section icon={<Ruler size={16} weight="bold" />} title="How the numbers work">
         <p>
