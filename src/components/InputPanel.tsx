@@ -28,9 +28,9 @@ interface InputPanelProps {
 }
 
 const MODES: { value: CalcMode; label: string; description: string; icon: React.ReactNode }[] = [
-  { value: 'container', label: 'Container Size',  description: "Volume of container", icon: <JarLabel size={16} weight="bold" /> },
-  { value: 'alcohol',   label: 'Alcohol Amount',  description: "Volume of alcohol", icon: <Drop size={16} weight="bold" /> },
-  { value: 'vanilla',   label: 'Vanilla Amount',  description: "Weight of vanilla beans", icon: <CoffeeBean size={16} weight="bold" /> },
+  { value: 'container', label: 'Container size',  description: "Volume of container", icon: <JarLabel size={16} weight="bold" /> },
+  { value: 'alcohol',   label: 'Alcohol amount',  description: "Volume of alcohol", icon: <Drop size={16} weight="bold" /> },
+  { value: 'vanilla',   label: 'Vanilla amount',  description: "Weight of vanilla beans", icon: <CoffeeBean size={16} weight="bold" /> },
 ]
 
 const selectTriggerCls = `
@@ -38,7 +38,7 @@ const selectTriggerCls = `
   bg-white dark:bg-zinc-950 hover:bg-zinc-100 dark:hover:bg-white/5 text-zinc-900 dark:text-zinc-100
   px-2 py-2 text-sm cursor-pointer whitespace-nowrap
   hover:border-zinc-400 dark:hover:border-zinc-600
-  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vanilla-400
+  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400
   transition-colors
 `
 
@@ -52,13 +52,21 @@ const selectPopupCls = `
 const selectItemCls = `
   flex items-center gap-2 px-3 py-1.5 text-sm cursor-pointer
   text-zinc-700 dark:text-zinc-300
-  data-[highlighted]:bg-vanilla-50 dark:data-[highlighted]:bg-vanilla-950/30
-  data-[highlighted]:text-vanilla-700 dark:data-[highlighted]:text-vanilla-400
+  data-[highlighted]:bg-accent-50 dark:data-[highlighted]:bg-accent-950/30
+  data-[highlighted]:text-accent-700 dark:data-[highlighted]:text-accent-400
 `
 
-function VolumeSelect({ value, onChange }: { value: VolumeUnit; onChange: (u: VolumeUnit) => void }) {
+interface VolumeSelectProps<U extends string> {
+  value: U
+  onChange: (u: U) => void
+  units?: Record<U, { label: string }>
+}
+
+export function VolumeSelect<U extends string = VolumeUnit>({
+  value, onChange, units = VOLUME_UNITS as Record<string, { label: string }>,
+}: VolumeSelectProps<U>) {
   return (
-    <Select.Root value={value} onValueChange={(v) => v && onChange(v as VolumeUnit)}>
+    <Select.Root value={value} onValueChange={(v) => v && onChange(v as U)}>
       <Select.Trigger className={selectTriggerCls}>
         <Select.Value />
         <Select.Icon className="text-zinc-400">
@@ -68,9 +76,9 @@ function VolumeSelect({ value, onChange }: { value: VolumeUnit; onChange: (u: Vo
       <Select.Portal>
         <Select.Positioner sideOffset={4} align="end">
           <Select.Popup className={selectPopupCls}>
-            {(Object.entries(VOLUME_UNITS) as [VolumeUnit, { label: string }][]).map(([key, u]) => (
+            {(Object.entries(units) as [U, { label: string }][]).map(([key, u]) => (
               <Select.Item key={key} value={key} className={selectItemCls}>
-                <Select.ItemIndicator className="text-vanilla-600 dark:text-vanilla-400">
+                <Select.ItemIndicator className="text-accent-600 dark:text-accent-400">
                   <Check size={12} weight="bold" />
                 </Select.ItemIndicator>
                 <Select.ItemText>{u.label}</Select.ItemText>
@@ -97,7 +105,7 @@ function WeightSelect({ value, onChange }: { value: WeightUnit; onChange: (u: We
           <Select.Popup className={selectPopupCls}>
             {(Object.entries(WEIGHT_UNITS) as [WeightUnit, { label: string }][]).map(([key, u]) => (
               <Select.Item key={key} value={key} className={selectItemCls}>
-                <Select.ItemIndicator className="text-vanilla-600 dark:text-vanilla-400">
+                <Select.ItemIndicator className="text-accent-600 dark:text-accent-400">
                   <Check size={12} weight="bold" />
                 </Select.ItemIndicator>
                 <Select.ItemText>{u.label}</Select.ItemText>
@@ -110,7 +118,7 @@ function WeightSelect({ value, onChange }: { value: WeightUnit; onChange: (u: We
   )
 }
 
-function NumInput({ value, onChange }: { value: number; onChange: (v: number) => void }) {
+export function NumInput({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   return (
     <NumberField.Root
       value={value}
@@ -119,7 +127,7 @@ function NumInput({ value, onChange }: { value: number; onChange: (v: number) =>
       step="any"
       className="flex-1 min-w-0"
     >
-      <NumberField.Group className="flex rounded-lg border border-zinc-300 dark:border-zinc-800 overflow-hidden focus-within:ring-2 focus-within:ring-vanilla-400 dark:focus-within:ring-vanilla-600 transition-shadow">
+      <NumberField.Group className="flex rounded-lg border border-zinc-300 dark:border-zinc-800 overflow-hidden focus-within:ring-2 focus-within:ring-accent-400 dark:focus-within:ring-accent-600 transition-shadow">
         <NumberField.Decrement className="
           px-3 py-2 bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-300 dark:border-zinc-800
           text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800
@@ -198,7 +206,7 @@ export function InputPanel({
                     aria-label={m.label}
                     className="toggle-card"
                   >
-                    <div className="h-10 w-10 p-2 inline-flex items-center justify-center rounded-full text-xs font-bold bg-vanilla-500/20 text-vanilla-700 dark:text-vanilla-300 mb-1">
+                    <div className="h-10 w-10 p-2 inline-flex items-center justify-center rounded-full text-xs font-bold bg-accent-500/20 text-accent-700 dark:text-accent-300 mb-1">
                       {m.icon}
                     </div>
                     <p className="toggle-card__title">
@@ -211,7 +219,7 @@ export function InputPanel({
               <div className="pt-1">
                 {mode === 'container' && (
                   <div className="space-y-1">
-                    <label className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Container / Jar Size</label>
+                    <label className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Container or jar size</label>
                     <div className="flex gap-2">
                       <NumInput value={containerValue} onChange={setContainerValue} />
                       <VolumeSelect value={containerUnit} onChange={setContainerUnit} />
@@ -224,7 +232,7 @@ export function InputPanel({
 
                 {mode === 'alcohol' && (
                   <div className="space-y-1">
-                    <label className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Alcohol Amount</label>
+                    <label className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Alcohol amount</label>
                     <div className="flex gap-2">
                       <NumInput value={alcoholValue} onChange={setAlcoholValue} />
                       <VolumeSelect value={alcoholUnit} onChange={setAlcoholUnit} />
@@ -237,7 +245,7 @@ export function InputPanel({
 
                 {mode === 'vanilla' && (
                   <div className="space-y-1">
-                    <label className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Vanilla Beans Weight</label>
+                    <label className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Vanilla bean weight</label>
                     <div className="flex gap-2">
                       <NumInput value={vanillaValue} onChange={setVanillaValue} />
                       <WeightSelect value={vanillaUnit} onChange={setVanillaUnit} />
