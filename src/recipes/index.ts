@@ -274,6 +274,11 @@ export const PAGES: Page[] = [
   },
 ]
 
+// Watercolor header image, 1024×434, at public/recipes/<slug>.jpg
+export function heroImage(page: Page): string {
+  return `recipes/${page.slug}.jpg`
+}
+
 export function findPage(slug: string): Page | undefined {
   return PAGES.find(p => p.slug === slug)
 }

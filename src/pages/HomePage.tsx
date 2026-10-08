@@ -1,7 +1,7 @@
 import { Fragment, useMemo, useState } from 'react'
 import { motion } from 'motion/react'
 import { ArrowRight, Calculator, ListChecks, MagnifyingGlass, Scales, Timer, X } from '@phosphor-icons/react'
-import { GROUPS, PAGES, searchText, timeHint } from '../recipes'
+import { GROUPS, PAGES, heroImage, searchText, timeHint } from '../recipes'
 import { fadeUp, stagger } from '../lib/motion'
 
 const HOW_IT_WORKS = [
@@ -21,7 +21,7 @@ export function HomePage() {
 
   return (
     <div className="space-y-10">
-      <header className="space-y-3">
+      <header className="space-y-3 pt-6 lg:pt-12">
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-zinc-950 dark:text-white tracking-tight">
           Make your own pantry staples
         </h1>
@@ -114,13 +114,23 @@ export function HomePage() {
                           variants={fadeUp}
                           className="group relative border-t border-zinc-200 dark:border-zinc-900 transition-colors hover:bg-zinc-50 dark:hover:bg-white/5 has-[a:focus-visible]:bg-zinc-50 dark:has-[a:focus-visible]:bg-white/5"
                         >
-                          <td className="px-4 py-3">
-                            <div className="flex items-center gap-3">
-                              <span
-                                className="h-9 w-9 shrink-0 inline-flex items-center justify-center rounded-full transition-transform duration-300 ease-out group-hover:scale-110"
-                                style={{ backgroundColor: `${p.accent[500]}26`, color: p.accent[500] }}
-                              >
-                                <p.icon size={18} weight="bold" />
+                          <td className="px-0 py-0">
+                            <div className="flex items-center gap-4">
+                              {/* Cropped in past the paper margins so the subject fills the thumbnail */}
+                              <span className="relative h-16 w-16 sm:h-20 sm:w-32 shrink-0 overflow-hidden bg-zinc-100 dark:bg-zinc-900 ring-1 ring-inset ring-zinc-900/5 dark:ring-white/10">
+                                <img
+                                  src={heroImage(p)}
+                                  alt=""
+                                  loading="lazy"
+                                  decoding="async"
+                                  className="transition opacity-60 mask-radial-[100%_100%] mask-radial-from-75% mask-radial-at-left h-full w-full object-cover scale-125 duration-300 ease-out group-hover:scale-[1.5] group-hover:-rotate-3 group-hover:opacity-100 dark:brightness-90 saturate-50 group-hover:saturate-100"
+                                />
+                                <span
+                                  className="absolute bottom-1 right-1 h-5 w-5 inline-flex items-center justify-center rounded-full shadow-sm"
+                                  style={{ backgroundColor: p.accent[500], color: 'white' }}
+                                >
+                                  <p.icon size={11} weight="bold" />
+                                </span>
                               </span>
                               <div className="min-w-0">
                                 {/* Stretched over the whole row so any cell is clickable */}

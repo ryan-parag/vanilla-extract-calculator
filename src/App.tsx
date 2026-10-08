@@ -3,7 +3,7 @@ import { motion } from 'motion/react'
 import { Flask, House, Info } from '@phosphor-icons/react'
 import { useHashRoute } from './hooks/useHashRoute'
 import { useThemePreference } from './hooks/usePreference'
-import { findPage } from './recipes'
+import { findPage, heroImage } from './recipes'
 import { applyPalette, vanilla } from './lib/palettes'
 import { HomePage } from './pages/HomePage'
 import { AboutPage } from './pages/AboutPage'
@@ -64,35 +64,36 @@ export default function App() {
 
       <div className="flex-1 min-w-0">
         {/* Keyed by route so each page eases in as you navigate */}
-        <motion.div
-          key={current || 'home'}
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          className="max-w-5xl mx-auto px-4 lg:px-8 py-8 print:p-0 print:max-w-none"
-        >
           {page && (
             <header className="mb-8">
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-zinc-950 dark:text-white tracking-tight">
-                {page.title}
-              </h1>
-              <p className="text-base lg:text-lg mt-1 lg:mt-2 text-zinc-500 dark:text-zinc-400">
-                {page.tagline}
-              </p>
-              {page.untested && (
-                <p className="mt-3 inline-flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-800 dark:text-amber-300 print:hidden">
-                  <Flask size={16} weight="bold" className="mt-0.5 shrink-0" />
-                  <span>
-                    <strong className="font-bold">Untested ratio.</strong> {page.untested}{' '}
-                    <a href="#/about" className="underline">How we test</a>
-                  </span>
+              <div
+                className={`relative w-full h-60 lg:h-80 overflow-hidden print:hidden bg-cover bg-center`}
+                style={{ backgroundImage: `url(${heroImage(page)})` }}
+              >
+                <div className="absolute top-0 bottom-0 left-0 right-0 bg-gradient-to-b from-transparent to-white dark:to-black" />
+              </div>
+              <div className="max-w-5xl mx-auto px-4 lg:px-8 pt-8 pb-0">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-zinc-950 dark:text-white tracking-tight">
+                  {page.title}
+                </h1>
+                <p className="text-base lg:text-lg mt-1 lg:mt-2 text-zinc-500 dark:text-zinc-400">
+                  {page.tagline}
                 </p>
-              )}
+                {page.untested && (
+                  <p className="mt-3 inline-flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-800 dark:text-amber-300 print:hidden">
+                    <Flask size={16} weight="bold" className="mt-0.5 shrink-0" />
+                    <span>
+                      <strong className="font-bold">Untested ratio.</strong> {page.untested}{' '}
+                      <a href="#/about" className="underline">How we test</a>
+                    </span>
+                  </p>
+                )}
+              </div>
             </header>
           )}
 
           {view === 'about' && (
-            <header className="mb-8">
+            <header className="max-w-5xl mx-auto px-4 lg:px-8 pt-8 pb-0">
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-zinc-950 dark:text-white tracking-tight">
                 About
               </h1>
@@ -101,28 +102,34 @@ export default function App() {
               </p>
             </header>
           )}
+          <motion.div
+            key={current || 'home'}
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            className="max-w-5xl mx-auto px-4 lg:px-8 py-8"
+          >
+            <main>
+              {page?.kind === 'vanilla' && <VanillaPage />}
+              {page?.kind === 'ratio' && <RatioRecipePage key={page.slug} slug={page.slug} name={page.name} recipe={page.recipe} />}
+              {view === 'about' && <AboutPage />}
+              {view === 'home' && <HomePage />}
+            </main>
 
-          <main>
-            {page?.kind === 'vanilla' && <VanillaPage />}
-            {page?.kind === 'ratio' && <RatioRecipePage key={page.slug} slug={page.slug} name={page.name} recipe={page.recipe} />}
-            {view === 'about' && <AboutPage />}
-            {view === 'home' && <HomePage />}
-          </main>
-
-          {page?.source && (
-            <footer className="mt-8 text-xs text-zinc-600 dark:text-zinc-400">
-              Formulas based on{' '}
-              <a
-                href={page.source.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline text-zinc-600 dark:text-zinc-400 hover:text-accent-600 dark:hover:text-accent-500"
-              >
-                {page.source.label}
-              </a>
-            </footer>
-          )}
-        </motion.div>
+            {page?.source && (
+              <footer className="mt-8 text-xs text-zinc-600 dark:text-zinc-400">
+                Formulas based on{' '}
+                <a
+                  href={page.source.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-zinc-600 dark:text-zinc-400 hover:text-accent-600 dark:hover:text-accent-500"
+                >
+                  {page.source.label}
+                </a>
+              </footer>
+            )}
+          </motion.div>
       </div>
     </div>
   )

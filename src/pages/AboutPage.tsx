@@ -30,7 +30,7 @@ export function AboutPage() {
         </div>
         <p>👋 Hey, I'm <a href="https://ryanparag.com" target="_blank" rel="noopener noreferrer" className="underline">Ryan Parag</a>!
         </p>
-        <p>I'm a product designer living in Sunny 🌞 Tampa Bay.I strive to help build useful products with an interdisciplinary skillset, bred from my fascination of systems, art, and code.</p>
+        <p>I'm a product designer living in Sunny 🌞 Tampa Bay. I strive to help build useful products with an interdisciplinary skillset, bred from my fascination of systems, art, and code.</p>
         <p>
           This started as a vanilla extract calculator and grew into a set of calculators for staples
           you can make at home instead of buying: extracts, cultured dairy, butter, sugars, and baking
