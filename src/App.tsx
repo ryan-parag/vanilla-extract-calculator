@@ -67,7 +67,7 @@ export default function App() {
           {page && (
             <header className="mb-8">
               <div
-                className={`relative w-full h-60 lg:h-80 overflow-hidden print:hidden bg-cover bg-center`}
+                className={`relative w-full h-60 lg:h-80 overflow-hidden print:hidden bg-cover bg-center opacity-100 dark:opacity-40`}
                 style={{ backgroundImage: `url(${heroImage(page)})` }}
               >
                 <div className="absolute top-0 bottom-0 left-0 right-0 bg-gradient-to-b from-transparent to-white dark:to-black" />
