@@ -11,7 +11,7 @@ export function RelatedRecipes({ slug }: { slug: string }) {
 
   return (
     <section className="print:hidden space-y-3">
-      <h2 className="text-lg font-bold text-zinc-700 dark:text-zinc-300">Goes well with</h2>
+      <h2 className="text-lg font-bold text-zinc-700 dark:text-zinc-300">Related recipes</h2>
       <div className="grid sm:grid-cols-2 gap-2">
         {links.map(({ page, note }) => (
           <a
