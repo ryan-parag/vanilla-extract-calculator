@@ -1,14 +1,17 @@
 import { Drop, Flask } from '@phosphor-icons/react'
 import { CUP_ML } from '../lib/kitchenUnits'
+import { G_PER_ML } from '../lib/densities'
 import type { RatioRecipe } from './types'
 
 // ½ cup paste = ¼ cup extract + ¼ cup syrup + seeds of 4 beans, so 1 tbsp ≈ 1 bean
 export const vanillaPaste: RatioRecipe = {
   base: {
     label: 'Vanilla extract',
+    gPerMl: G_PER_ML.vanillaExtract,
     description: 'Homemade is perfect',
   },
   yieldLabel: 'Vanilla bean paste',
+  yieldGPerMl: G_PER_ML.vanillaPaste,
   yieldRange: [1, 1],
   variantHeading: 'Binder',
   variants: [
@@ -19,7 +22,7 @@ export const vanillaPaste: RatioRecipe = {
       icon: Drop,
       recommended: true,
       additions: [
-        { id: 'syrup', label: 'Light corn syrup', mlPerBaseMl: 1 },
+        { id: 'syrup', label: 'Light corn syrup', mlPerBaseMl: 1, gPerMl: G_PER_ML.cornSyrup },
         { id: 'beans', label: 'Vanilla beans', countPerBaseMl: 4 / (CUP_ML / 4), noun: ['vanilla bean', 'vanilla beans'], round: 'half' },
       ],
     },
@@ -29,7 +32,7 @@ export const vanillaPaste: RatioRecipe = {
       description: 'Food-grade, less sweet',
       icon: Flask,
       additions: [
-        { id: 'syrup', label: 'Food-grade glycerin', mlPerBaseMl: 1 },
+        { id: 'syrup', label: 'Food-grade glycerin', mlPerBaseMl: 1, gPerMl: G_PER_ML.glycerin },
         { id: 'beans', label: 'Vanilla beans', countPerBaseMl: 4 / (CUP_ML / 4), noun: ['vanilla bean', 'vanilla beans'], round: 'half' },
       ],
     },

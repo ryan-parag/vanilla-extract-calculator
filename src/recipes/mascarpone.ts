@@ -1,13 +1,16 @@
 import { Flask, OrangeSlice } from '@phosphor-icons/react'
 import { CUP_ML, TBSP_ML, TSP_ML } from '../lib/kitchenUnits'
+import { G_PER_ML } from '../lib/densities'
 import type { RatioRecipe } from './types'
 
 export const mascarpone: RatioRecipe = {
   base: {
     label: 'Heavy cream',
+    gPerMl: G_PER_ML.cream,
     description: '36%+ fat, pasteurized (not ultra-pasteurized)',
   },
   yieldLabel: 'Mascarpone',
+  yieldGPerMl: G_PER_ML.mascarpone,
   // Whey drains off overnight; varies with fat content and straining time
   yieldRange: [0.65, 0.8],
   variantHeading: 'Acid',
@@ -18,7 +21,7 @@ export const mascarpone: RatioRecipe = {
       description: 'Easy to find, faint citrus note',
       icon: OrangeSlice,
       recommended: true,
-      additions: [{ id: 'acid', label: 'fresh lemon juice', mlPerBaseMl: (TBSP_ML / 2) / CUP_ML }],
+      additions: [{ id: 'acid', label: 'fresh lemon juice', mlPerBaseMl: (TBSP_ML / 2) / CUP_ML, gPerMl: G_PER_ML.lemonJuice }],
     },
     {
       id: 'tartaric',

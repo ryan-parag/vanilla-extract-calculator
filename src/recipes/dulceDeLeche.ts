@@ -1,5 +1,6 @@
 import { CookingPot } from '@phosphor-icons/react'
 import { CUP_ML, TSP_ML } from '../lib/kitchenUnits'
+import { G_PER_ML } from '../lib/densities'
 import type { RatioRecipe } from './types'
 
 const QUART_ML = CUP_ML * 4
@@ -7,9 +8,11 @@ const QUART_ML = CUP_ML * 4
 export const dulceDeLeche: RatioRecipe = {
   base: {
     label: 'Whole milk',
+    gPerMl: G_PER_ML.milk,
     description: 'Whole milk gives the creamiest result',
   },
   yieldLabel: 'Dulce de leche',
+  yieldGPerMl: G_PER_ML.dulceDeLeche,
   // Cooks down to about a quarter of the milk
   yieldRange: [0.25, 0.3],
   yieldFrom: 'base',
@@ -20,8 +23,8 @@ export const dulceDeLeche: RatioRecipe = {
       description: 'Milk, sugar, and baking soda',
       icon: CookingPot,
       additions: [
-        { id: 'sugar', label: 'Granulated sugar', mlPerBaseMl: (CUP_ML * 1.25) / QUART_ML },
-        { id: 'soda', label: 'Baking soda', mlPerBaseMl: (TSP_ML / 4) / QUART_ML },
+        { id: 'sugar', label: 'Granulated sugar', mlPerBaseMl: (CUP_ML * 1.25) / QUART_ML, gPerMl: G_PER_ML.sugar },
+        { id: 'soda', label: 'Baking soda', mlPerBaseMl: (TSP_ML / 4) / QUART_ML, gPerMl: G_PER_ML.bakingSoda },
       ],
     },
   ],

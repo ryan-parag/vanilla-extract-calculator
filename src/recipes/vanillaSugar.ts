@@ -1,5 +1,6 @@
 import { CoffeeBean, Recycle, Sparkle } from '@phosphor-icons/react'
 import { CUP_ML } from '../lib/kitchenUnits'
+import { G_PER_ML } from '../lib/densities'
 import type { RatioRecipe } from './types'
 
 const bean: ['vanilla bean', 'vanilla beans'] = ['vanilla bean', 'vanilla beans']
@@ -7,9 +8,11 @@ const bean: ['vanilla bean', 'vanilla beans'] = ['vanilla bean', 'vanilla beans'
 export const vanillaSugar: RatioRecipe = {
   base: {
     label: 'Granulated sugar',
+    gPerMl: G_PER_ML.sugar,
     description: 'Plain white sugar, or raw sugar for a crunchier topping',
   },
   yieldLabel: 'Vanilla sugar',
+  yieldGPerMl: G_PER_ML.sugar,
   yieldRange: [1, 1],
   yieldFrom: 'base',
   variantHeading: 'Vanilla',

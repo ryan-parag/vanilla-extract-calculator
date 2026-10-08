@@ -1,13 +1,16 @@
 import { BowlFood, Drop, Jar } from '@phosphor-icons/react'
 import { CUP_ML, TBSP_ML } from '../lib/kitchenUnits'
+import { G_PER_ML } from '../lib/densities'
 import type { RatioRecipe } from './types'
 
 export const cremeFraiche: RatioRecipe = {
   base: {
     label: 'Heavy cream',
+    gPerMl: G_PER_ML.cream,
     description: '36%+ fat, any pasteurization',
   },
   yieldLabel: 'Crème fraîche',
+  yieldGPerMl: G_PER_ML.cremeFraiche,
   yieldRange: [1, 1],
   variantHeading: 'Culture',
   variants: [
@@ -17,21 +20,21 @@ export const cremeFraiche: RatioRecipe = {
       description: 'Classic, mild tang',
       icon: Drop,
       recommended: true,
-      additions: [{ id: 'culture', label: 'cultured buttermilk', mlPerBaseMl: TBSP_ML / CUP_ML }],
+      additions: [{ id: 'culture', label: 'cultured buttermilk', mlPerBaseMl: TBSP_ML / CUP_ML, gPerMl: G_PER_ML.buttermilk }],
     },
     {
       id: 'sour-cream',
       label: 'Sour cream',
       description: 'Thicker, a little richer',
       icon: BowlFood,
-      additions: [{ id: 'culture', label: 'sour cream', mlPerBaseMl: (TBSP_ML * 2) / CUP_ML }],
+      additions: [{ id: 'culture', label: 'sour cream', mlPerBaseMl: (TBSP_ML * 2) / CUP_ML, gPerMl: G_PER_ML.sourCream }],
     },
     {
       id: 'yogurt',
       label: 'Plain yogurt',
       description: 'Tangier, more sour finish',
       icon: Jar,
-      additions: [{ id: 'culture', label: 'plain yogurt', mlPerBaseMl: TBSP_ML / CUP_ML }],
+      additions: [{ id: 'culture', label: 'plain yogurt', mlPerBaseMl: TBSP_ML / CUP_ML, gPerMl: G_PER_ML.yogurt }],
     },
   ],
   defaults: { mode: 'base', value: 1, unit: 'cup' },

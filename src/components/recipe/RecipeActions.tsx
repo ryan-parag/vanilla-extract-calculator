@@ -18,7 +18,7 @@ export function RecipeActions({ recipeText }: { recipeText: () => string }) {
   }
 
   return (
-    <div className="grid grid-cols-3 gap-2 pt-1 print:hidden">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-2 pt-1 print:hidden">
       <Button onClick={() => copy('recipe')} className={buttonCls}>
         {copied === 'recipe' ? <Check size={16} weight="bold" /> : <Copy size={16} weight="regular" />}
         {copied === 'recipe' ? 'Copied' : 'Copy recipe'}

@@ -16,6 +16,7 @@ export function toCanonical(value: number, unit: AnyUnit, measure: Measure): num
   return value * UNITS_BY_MEASURE[measure][unit].factor
 }
 
-export function formatMeasure(amount: number, measure: Measure, system: MeasureSystem, approx = false): string {
-  return measure === 'butter' ? formatButter(amount, system, approx) : formatVolume(amount, system, approx)
+// `gPerMl` lets volume amounts show as grams in the 'weight' system
+export function formatMeasure(amount: number, measure: Measure, system: MeasureSystem, approx = false, gPerMl?: number): string {
+  return measure === 'butter' ? formatButter(amount, system, approx) : formatVolume(amount, system, approx, gPerMl)
 }

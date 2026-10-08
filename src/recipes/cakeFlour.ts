@@ -1,5 +1,6 @@
 import { Grains, Spiral } from '@phosphor-icons/react'
 import { TBSP_ML } from '../lib/kitchenUnits'
+import { G_PER_ML } from '../lib/densities'
 import type { RatioRecipe } from './types'
 
 // 1 cup cake flour = 14 tbsp all-purpose + 2 tbsp starch
@@ -8,9 +9,11 @@ const STARCH_PER_FLOUR = (TBSP_ML * 2) / (TBSP_ML * 14)
 export const cakeFlour: RatioRecipe = {
   base: {
     label: 'All-purpose flour',
+    gPerMl: G_PER_ML.flour,
     description: 'Spooned into the cup and leveled',
   },
   yieldLabel: 'Cake flour',
+  yieldGPerMl: G_PER_ML.flour,
   yieldRange: [1, 1],
   variantHeading: 'Starch',
   variants: [
@@ -20,14 +23,14 @@ export const cakeFlour: RatioRecipe = {
       description: 'The classic swap',
       icon: Grains,
       recommended: true,
-      additions: [{ id: 'starch', label: 'cornstarch', mlPerBaseMl: STARCH_PER_FLOUR }],
+      additions: [{ id: 'starch', label: 'cornstarch', mlPerBaseMl: STARCH_PER_FLOUR, gPerMl: G_PER_ML.cornstarch }],
     },
     {
       id: 'arrowroot',
       label: 'Arrowroot',
       description: 'Works the same, corn-free',
       icon: Spiral,
-      additions: [{ id: 'starch', label: 'arrowroot powder', mlPerBaseMl: STARCH_PER_FLOUR }],
+      additions: [{ id: 'starch', label: 'arrowroot powder', mlPerBaseMl: STARCH_PER_FLOUR, gPerMl: G_PER_ML.arrowroot }],
     },
   ],
   defaults: { mode: 'yield', value: 1, unit: 'cup' },

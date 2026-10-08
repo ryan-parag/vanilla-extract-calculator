@@ -1,13 +1,16 @@
 import { Orange, OrangeSlice, Plant } from '@phosphor-icons/react'
 import { CUP_ML } from '../lib/kitchenUnits'
+import { G_PER_ML } from '../lib/densities'
 import type { RatioRecipe } from './types'
 
 export const citrusExtract: RatioRecipe = {
   base: {
     label: 'Vodka',
+    gPerMl: G_PER_ML.vodka,
     description: '80 proof (40% ABV) or stronger',
   },
   yieldLabel: 'Citrus extract',
+  yieldGPerMl: G_PER_ML.vodka,
   // The zest soaks up some alcohol when strained
   yieldRange: [0.85, 0.95],
   yieldFrom: 'base',

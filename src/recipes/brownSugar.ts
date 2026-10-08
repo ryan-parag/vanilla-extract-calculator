@@ -1,13 +1,16 @@
 import { Coffee, Drop } from '@phosphor-icons/react'
 import { CUP_ML, TBSP_ML } from '../lib/kitchenUnits'
+import { G_PER_ML } from '../lib/densities'
 import type { RatioRecipe } from './types'
 
 export const brownSugar: RatioRecipe = {
   base: {
     label: 'Granulated sugar',
+    gPerMl: G_PER_ML.sugar,
     description: 'Plain white sugar',
   },
   yieldLabel: 'Brown sugar',
+  yieldGPerMl: G_PER_ML.brownSugar,
   // Molasses coats the crystals rather than adding volume
   yieldRange: [1, 1],
   yieldFrom: 'base',
@@ -19,14 +22,14 @@ export const brownSugar: RatioRecipe = {
       description: 'Most recipes mean this one',
       icon: Drop,
       recommended: true,
-      additions: [{ id: 'molasses', label: 'molasses', mlPerBaseMl: TBSP_ML / CUP_ML }],
+      additions: [{ id: 'molasses', label: 'molasses', mlPerBaseMl: TBSP_ML / CUP_ML, gPerMl: G_PER_ML.molasses }],
     },
     {
       id: 'dark',
       label: 'Dark brown',
       description: 'Deeper, more caramel flavor',
       icon: Coffee,
-      additions: [{ id: 'molasses', label: 'molasses', mlPerBaseMl: (TBSP_ML * 2) / CUP_ML }],
+      additions: [{ id: 'molasses', label: 'molasses', mlPerBaseMl: (TBSP_ML * 2) / CUP_ML, gPerMl: G_PER_ML.molasses }],
     },
   ],
   defaults: { mode: 'yield', value: 1, unit: 'cup' },

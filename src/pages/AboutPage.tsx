@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react'
-import { Flask, Lock, Ruler, Warning } from '@phosphor-icons/react'
+import { Flask, Lock, Ruler, Scales, Warning } from '@phosphor-icons/react'
 import { PAGES } from '../recipes'
+import { CUP_ML, TSP_ML } from '../lib/kitchenUnits'
+import { DENSITY_REFERENCE } from '../lib/densities'
 
 function Section({ icon, title, children }: { icon: ReactNode; title: string; children: ReactNode }) {
   return (
@@ -23,6 +25,9 @@ export function AboutPage() {
   return (
     <div className="space-y-5 max-w-3xl">
       <div className="p-6 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-transparent text-zinc-900 dark:text-white flex flex-col gap-2">
+        <div className="h-16 w-16 rounded-full overflow-hidden relative border-2 border-black/10 dark:border-white/10">
+          <img src="profile.png" alt="Ryan Parag" className="absolute inset-0 w-full h-full object-cover" />
+        </div>
         <p>👋 Hey, I'm <a href="https://ryanparag.com" target="_blank" rel="noopener noreferrer" className="underline">Ryan Parag</a>!
         </p>
         <p>I'm a product designer living in Sunny 🌞 Tampa Bay.I strive to help build useful products with an interdisciplinary skillset, bred from my fascination of systems, art, and code.</p>
@@ -43,7 +48,8 @@ export function AboutPage() {
         <p>
           <strong className="text-zinc-800 dark:text-zinc-200">Measurements are rounded the way you’d measure them.</strong>{' '}
           US results use cups and spoons (“1 cup + 1½ tbsp”), butter comes in sticks and tablespoons, and
-          small amounts use spoons in either system. Metric results use ml and grams.
+          small amounts use spoons in any system. Metric results use ml and grams, and Weight shows
+          grams for everything it can.
         </p>
         <p>
           <strong className="text-zinc-800 dark:text-zinc-200">“About” means it varies.</strong>{' '}
@@ -51,6 +57,36 @@ export function AboutPage() {
           cream. Where results depend on technique, you’ll see a range, and calculating from what you need
           aims for the middle of it.
         </p>
+      </Section>
+
+      <Section icon={<Scales size={16} weight="bold" />} title="Weights are approximate">
+        <p>
+          Recipes here are written by volume. Choosing <strong className="text-zinc-800 dark:text-zinc-200">Weight</strong> converts
+          those amounts to grams using a typical weight for each ingredient, so treat them as close
+          estimates, not exact figures.
+        </p>
+        <p>
+          A cup of flour can weigh anywhere from about 115 to 150 g depending on whether it’s spooned,
+          scooped, or sifted, and sugars, starches, and dairy vary by brand and fat content. The
+          numbers assume dry ingredients are spooned into the cup and leveled.
+        </p>
+        <p>
+          Below a teaspoon, most kitchen scales can’t weigh accurately, so small amounts stay in spoons
+          with the grams alongside. Anything without a reliable weight, like tartaric acid, stays in
+          spoons or ml.
+        </p>
+        <dl className="grid grid-cols-[1fr_auto] gap-x-6 gap-y-1.5 rounded-lg bg-zinc-50 dark:bg-white/5 p-3">
+          {DENSITY_REFERENCE.map(d => (
+            <div key={d.label} className="contents">
+              <dt>{d.label}</dt>
+              <dd className="text-right tabular-nums text-zinc-800 dark:text-zinc-200">
+                {d.per === 'cup'
+                  ? `${Math.round(d.gPerMl * CUP_ML)} g per cup`
+                  : `${(d.gPerMl * TSP_ML).toFixed(1).replace(/\.0$/, '')} g per tsp`}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </Section>
 
       <Section icon={<Flask size={16} weight="bold" />} title="Sources and testing">

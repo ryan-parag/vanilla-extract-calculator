@@ -179,7 +179,6 @@ export function InputPanel({
           </div>
           <motion.div
             animate={{ rotate: open ? 90 : 0 }}
-            transition={{ duration: 0.2 }}
           >
             <CaretRight size={16} weight="bold" />
           </motion.div>
@@ -189,7 +188,6 @@ export function InputPanel({
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
-              transition={{ duration: 0.2 }}
               className="px-4 py-3"
             >
               <ToggleGroup

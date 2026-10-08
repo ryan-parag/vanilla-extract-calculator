@@ -61,7 +61,7 @@ export function IngredientList({ current, onNavigate }: IngredientListProps) {
                   : 'text-zinc-700 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-50'}
               `}
             >
-              <motion.span animate={{ rotate: open ? 90 : 0 }} transition={{ duration: 0.2 }} className="inline-flex">
+              <motion.span animate={{ rotate: open ? 90 : 0 }} className="inline-flex">
                 <CaretRight size={10} weight="bold" />
               </motion.span>
               <span className="flex-1 text-left">{group}</span>
@@ -74,7 +74,6 @@ export function IngredientList({ current, onNavigate }: IngredientListProps) {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
                   className="space-y-0.5 overflow-hidden pb-2"
                 >
                   {pages.map((p) => {

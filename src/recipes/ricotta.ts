@@ -1,21 +1,24 @@
 import { Flask, OrangeSlice } from '@phosphor-icons/react'
 import { CUP_ML, TBSP_ML, TSP_ML } from '../lib/kitchenUnits'
+import { G_PER_ML } from '../lib/densities'
 import type { RatioRecipe } from './types'
 
 // Per 4 cups milk: 3 tbsp acid, ½ tsp salt
 const PER_MILK = CUP_ML * 4
-const salt = { id: 'salt', label: 'Fine salt', mlPerBaseMl: (TSP_ML / 2) / PER_MILK }
+const salt = { id: 'salt', label: 'Fine salt', mlPerBaseMl: (TSP_ML / 2) / PER_MILK, gPerMl: G_PER_ML.salt }
 
 export const ricotta: RatioRecipe = {
   base: {
     label: 'Whole milk',
+    gPerMl: G_PER_ML.milk,
     description: 'Pasteurized, not ultra-pasteurized',
   },
   yieldLabel: 'Ricotta',
+  yieldGPerMl: G_PER_ML.ricotta,
   // Depends on fat content and how long it drains
   yieldRange: [0.22, 0.28],
   yieldFrom: 'base',
-  byproducts: [{ label: 'Whey', range: [0.7, 0.75] }],
+  byproducts: [{ label: 'Whey', range: [0.7, 0.75], gPerMl: G_PER_ML.whey }],
   variantHeading: 'Acid',
   variants: [
     {
@@ -24,14 +27,14 @@ export const ricotta: RatioRecipe = {
       description: 'Soft curds, faint citrus',
       icon: OrangeSlice,
       recommended: true,
-      additions: [{ id: 'acid', label: 'Fresh lemon juice', mlPerBaseMl: (TBSP_ML * 3) / PER_MILK }, salt],
+      additions: [{ id: 'acid', label: 'Fresh lemon juice', mlPerBaseMl: (TBSP_ML * 3) / PER_MILK, gPerMl: G_PER_ML.lemonJuice }, salt],
     },
     {
       id: 'vinegar',
       label: 'White vinegar',
       description: 'Neutral flavor, firmer curds',
       icon: Flask,
-      additions: [{ id: 'acid', label: 'White vinegar', mlPerBaseMl: (TBSP_ML * 3) / PER_MILK }, salt],
+      additions: [{ id: 'acid', label: 'White vinegar', mlPerBaseMl: (TBSP_ML * 3) / PER_MILK, gPerMl: G_PER_ML.vinegar }, salt],
     },
   ],
   defaults: { mode: 'yield', value: 1, unit: 'cup' },

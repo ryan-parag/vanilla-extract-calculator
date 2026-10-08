@@ -1,13 +1,16 @@
 import { Bread } from '@phosphor-icons/react'
 import { CUP_ML, TSP_ML } from '../lib/kitchenUnits'
+import { G_PER_ML } from '../lib/densities'
 import type { RatioRecipe } from './types'
 
 export const selfRisingFlour: RatioRecipe = {
   base: {
     label: 'All-purpose flour',
+    gPerMl: G_PER_ML.flour,
     description: 'Spooned into the cup and leveled',
   },
   yieldLabel: 'Self-rising flour',
+  yieldGPerMl: G_PER_ML.flour,
   // Leavening and salt barely change the volume
   yieldRange: [1, 1],
   yieldFrom: 'base',
@@ -18,8 +21,8 @@ export const selfRisingFlour: RatioRecipe = {
       description: 'Baking powder and salt',
       icon: Bread,
       additions: [
-        { id: 'leavening', label: 'baking powder', mlPerBaseMl: (TSP_ML * 1.5) / CUP_ML },
-        { id: 'salt', label: 'fine salt', mlPerBaseMl: (TSP_ML / 4) / CUP_ML },
+        { id: 'leavening', label: 'baking powder', mlPerBaseMl: (TSP_ML * 1.5) / CUP_ML, gPerMl: G_PER_ML.bakingPowder },
+        { id: 'salt', label: 'fine salt', mlPerBaseMl: (TSP_ML / 4) / CUP_ML, gPerMl: G_PER_ML.salt },
       ],
     },
   ],

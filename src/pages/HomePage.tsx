@@ -1,6 +1,8 @@
-import { useMemo, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
+import { motion } from 'motion/react'
 import { ArrowRight, Calculator, ListChecks, MagnifyingGlass, Scales, Timer, X } from '@phosphor-icons/react'
 import { GROUPS, PAGES, searchText, timeHint } from '../recipes'
+import { fadeUp, stagger } from '../lib/motion'
 
 const HOW_IT_WORKS = [
   { icon: ListChecks, title: 'Pick a staple', body: `${PAGES.length} pantry and fridge basics, from vanilla extract to ricotta.` },
@@ -29,9 +31,14 @@ export function HomePage() {
         </p>
       </header>
 
-      <ol className="p-6 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-transparent grid sm:grid-cols-3 gap-6 rounded-lg">
+      <motion.ol
+        variants={stagger(0.08, 0.1)}
+        initial="hidden"
+        animate="show"
+        className="p-6 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-transparent grid sm:grid-cols-3 gap-6 rounded-lg"
+      >
         {HOW_IT_WORKS.map((s, i) => (
-          <li key={s.title} className="space-y-2">
+          <motion.li key={s.title} variants={fadeUp} className="space-y-2">
             <div className="flex items-center gap-2">
               <span className="h-7 w-7 inline-flex items-center justify-center rounded-full bg-accent-500/20 text-accent-700 dark:text-accent-300">
                 <s.icon size={16} weight="bold" />
@@ -40,9 +47,9 @@ export function HomePage() {
             </div>
             <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100">{s.title}</p>
             <p className="text-base text-zinc-700 dark:text-zinc-300">{s.body}</p>
-          </li>
+          </motion.li>
         ))}
-      </ol>
+      </motion.ol>
 
       <section className="space-y-6">
         <div className="relative max-w-md">
@@ -78,49 +85,78 @@ export function HomePage() {
           </p>
         )}
 
-        {GROUPS.map((group) => {
-          const pages = matches.filter(p => p.group === group)
-          if (pages.length === 0) return null
-          return (
-            <div key={group} className="space-y-3">
-              <h2 className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">{group}</h2>
-              <ul className="grid sm:grid-cols-2 xl:grid-cols-3 gap-3">
-                {pages.map((p) => (
-                  <li key={p.slug}>
-                    <a
-                      href={`#/${p.slug}`}
-                      className="
-                        group card h-full flex flex-col gap-3 p-4 transition-colors
-                        hover:border-zinc-300 dark:hover:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-white/5
-                        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400
-                      "
-                    >
-                      <div className="flex items-center justify-between">
-                        <span
-                          className="h-10 w-10 inline-flex items-center justify-center rounded-full"
-                          style={{ backgroundColor: `${p.accent[500]}26`, color: p.accent[500] }}
+        {matches.length > 0 && (
+          <div className="card overflow-hidden">
+            {/* Rows that appear while searching mount into "hidden" and ease in on their own */}
+            <motion.table variants={stagger(0.02, 0.15)} initial="hidden" animate="show" className="w-full text-left text-sm">
+              <thead className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                <tr>
+                  <th scope="col" className="px-4 py-3">Calculator</th>
+                  <th scope="col" className="hidden md:table-cell px-4 py-3">What it makes</th>
+                  <th scope="col" className="px-4 py-3 text-right">Time</th>
+                  <th scope="col" className="w-10"><span className="sr-only">Open</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                {GROUPS.map((group) => {
+                  const pages = matches.filter(p => p.group === group)
+                  if (pages.length === 0) return null
+                  return (
+                    <Fragment key={group}>
+                      <motion.tr variants={fadeUp} className="border-t border-zinc-200 dark:border-zinc-900 bg-zinc-50 dark:bg-zinc-900/50">
+                        <th scope="colgroup" colSpan={4} className="px-4 py-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                          {group}
+                        </th>
+                      </motion.tr>
+                      {pages.map((p) => (
+                        <motion.tr
+                          key={p.slug}
+                          variants={fadeUp}
+                          className="group relative border-t border-zinc-200 dark:border-zinc-900 transition-colors hover:bg-zinc-50 dark:hover:bg-white/5 has-[a:focus-visible]:bg-zinc-50 dark:has-[a:focus-visible]:bg-white/5"
                         >
-                          <p.icon size={20} weight="bold" />
-                        </span>
-                        <span className="inline-flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
-                          <Timer size={12} weight="bold" />
-                          {timeHint(p)}
-                        </span>
-                      </div>
-                      <div className="space-y-1">
-                        <p className="flex items-center gap-1 font-bold text-zinc-900 dark:text-zinc-100">
-                          {p.name}
-                          <ArrowRight size={14} weight="bold" className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition" />
-                        </p>
-                        <p className="text-sm text-zinc-500 dark:text-zinc-400">{p.tagline}</p>
-                      </div>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )
-        })}
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-3">
+                              <span
+                                className="h-9 w-9 shrink-0 inline-flex items-center justify-center rounded-full transition-transform duration-300 ease-out group-hover:scale-110"
+                                style={{ backgroundColor: `${p.accent[500]}26`, color: p.accent[500] }}
+                              >
+                                <p.icon size={18} weight="bold" />
+                              </span>
+                              <div className="min-w-0">
+                                {/* Stretched over the whole row so any cell is clickable */}
+                                <a
+                                  href={`#/${p.slug}`}
+                                  className="font-bold text-zinc-900 dark:text-zinc-100 focus-visible:outline-none after:absolute after:inset-0 focus-visible:after:ring-2 focus-visible:after:ring-inset focus-visible:after:ring-accent-400"
+                                >
+                                  {p.name}
+                                </a>
+                                <p className="md:hidden text-xs text-zinc-500 dark:text-zinc-400">{p.tagline}</p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="hidden md:table-cell px-4 py-3 text-zinc-500 dark:text-zinc-400">{p.tagline}</td>
+                          <td className="px-4 py-3 text-right whitespace-nowrap text-xs text-zinc-500 dark:text-zinc-400">
+                            <span className="inline-flex items-center gap-1">
+                              <Timer size={12} weight="bold" />
+                              {timeHint(p)}
+                            </span>
+                          </td>
+                          <td className="pr-4 py-3 text-zinc-400">
+                            <ArrowRight
+                              size={14}
+                              weight="bold"
+                              className="opacity-0 -translate-x-1 transition duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-0 group-has-[a:focus-visible]:opacity-100 group-has-[a:focus-visible]:translate-x-0"
+                            />
+                          </td>
+                        </motion.tr>
+                      ))}
+                    </Fragment>
+                  )
+                })}
+              </tbody>
+            </motion.table>
+          </div>
+        )}
       </section>
     </div>
   )

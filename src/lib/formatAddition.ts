@@ -3,7 +3,7 @@ import type { Addition } from '../recipes/types'
 
 // Amount of an addition for `baseMl` of base, formatted for the page and the steps
 export function formatAddition(a: Addition, baseMl: number, system: MeasureSystem): string {
-  if ('mlPerBaseMl' in a) return formatVolume(baseMl * a.mlPerBaseMl, system)
+  if ('mlPerBaseMl' in a) return formatVolume(baseMl * a.mlPerBaseMl, system, false, a.gPerMl)
   if ('gramsPerBaseMl' in a) return formatWeight(baseMl * a.gramsPerBaseMl, system)
   const n = baseMl * a.countPerBaseMl
   const count = formatCount(n, a.noun, a.round)

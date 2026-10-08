@@ -1,13 +1,16 @@
 import { Grains, Spiral } from '@phosphor-icons/react'
 import { CUP_ML, TBSP_ML } from '../lib/kitchenUnits'
+import { G_PER_ML } from '../lib/densities'
 import type { RatioRecipe } from './types'
 
 export const powderedSugar: RatioRecipe = {
   base: {
     label: 'Granulated sugar',
+    gPerMl: G_PER_ML.sugar,
     description: 'Plain white sugar',
   },
   yieldLabel: 'Powdered sugar',
+  yieldGPerMl: G_PER_ML.powderedSugar,
   // Ground sugar is fluffier than crystals; depends on how fine it's blended
   yieldRange: [1.5, 1.75],
   yieldFrom: 'base',
@@ -19,14 +22,14 @@ export const powderedSugar: RatioRecipe = {
       description: 'Matches store-bought',
       icon: Grains,
       recommended: true,
-      additions: [{ id: 'starch', label: 'cornstarch', mlPerBaseMl: TBSP_ML / CUP_ML }],
+      additions: [{ id: 'starch', label: 'cornstarch', mlPerBaseMl: TBSP_ML / CUP_ML, gPerMl: G_PER_ML.cornstarch }],
     },
     {
       id: 'arrowroot',
       label: 'Arrowroot',
       description: 'Corn-free, no starchy taste',
       icon: Spiral,
-      additions: [{ id: 'starch', label: 'arrowroot powder', mlPerBaseMl: TBSP_ML / CUP_ML }],
+      additions: [{ id: 'starch', label: 'arrowroot powder', mlPerBaseMl: TBSP_ML / CUP_ML, gPerMl: G_PER_ML.arrowroot }],
     },
   ],
   defaults: { mode: 'yield', value: 1, unit: 'cup' },

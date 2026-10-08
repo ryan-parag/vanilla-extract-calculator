@@ -31,6 +31,7 @@ const KeyValPair = ({ k, v }: { k: string; v: string }) => (
 const SYSTEMS: { value: MeasureSystem; label: string }[] = [
   { value: 'us', label: 'US' },
   { value: 'metric', label: 'Metric' },
+  { value: 'weight', label: 'Weight' },
 ]
 
 export function RatioResultsPanel({

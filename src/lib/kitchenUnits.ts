@@ -1,7 +1,8 @@
 // Formats raw ml amounts the way a home cook measures them:
-// "1½ cups + 1 tbsp", "2 tbsp + ½ tsp", "⅛ tsp", or "350 ml".
+// "1½ cups + 1 tbsp", "2 tbsp + ½ tsp", "⅛ tsp", "350 ml", or "240 g".
 
-export type MeasureSystem = 'us' | 'metric'
+// 'weight' shows grams wherever an ingredient has a known density, and metric volume otherwise
+export type MeasureSystem = 'us' | 'metric' | 'weight'
 
 export const TSP_ML = 4.92892
 export const TBSP_ML = TSP_ML * 3
@@ -94,9 +95,27 @@ function formatMetric(ml: number, approx: boolean): string {
   return `${Math.round(ml)} ml`
 }
 
-// `approx` rounds to the nearest cup measure / 10 ml, for estimates like yields
-export function formatVolume(ml: number, system: MeasureSystem, approx = false): string {
+function formatGrams(g: number, approx = false): string {
+  if (g >= 1000) return `${(g / 1000).toFixed(approx ? 1 : 2).replace(/\.?0+$/, '')} kg`
+  if (approx && g >= 100) return `${Math.round(g / 5) * 5} g`
+  return g >= 10 ? `${Math.round(g)} g` : `${g.toFixed(1).replace(/\.0$/, '')} g`
+}
+
+// Under a teaspoon, most kitchen scales can't read the weight reliably, so spoons lead
+function formatVolumeAsWeight(ml: number, gPerMl: number, approx: boolean): string {
+  const g = ml * gPerMl
+  if (ml < TSP_ML * 0.99) return g >= 0.5 ? `${formatSpoons(ml)} (${formatGrams(g)})` : formatSpoons(ml)
+  return formatGrams(g, approx)
+}
+
+// `approx` rounds to the nearest cup measure / 10 ml, for estimates like yields.
+// `gPerMl` is the ingredient's density, used when `system` is 'weight'.
+export function formatVolume(ml: number, system: MeasureSystem, approx = false, gPerMl?: number): string {
   if (!(ml > 0)) return '0'
+  if (system === 'weight') {
+    if (gPerMl) return formatVolumeAsWeight(ml, gPerMl, approx)
+    system = 'metric'
+  }
   // Spoon measures are universal; use them for small amounts in either system
   if (ml < (system === 'us' ? CUP_ML / 4 - TBSP_ML / 4 : 30)) {
     const spoons = formatSpoons(ml)
@@ -108,8 +127,8 @@ export function formatVolume(ml: number, system: MeasureSystem, approx = false):
 const OZ_G = 28.3495
 
 export function formatWeight(g: number, system: MeasureSystem): string {
-  const grams = g >= 10 ? `${Math.round(g)} g` : `${g.toFixed(1).replace(/\.0$/, '')} g`
-  if (system === 'metric' || g < OZ_G) return grams
+  const grams = formatGrams(g)
+  if (system !== 'us' || g < OZ_G) return grams
   return `${(g / OZ_G).toFixed(1)} oz (${grams})`
 }
 
@@ -150,7 +169,7 @@ function butterParts(g: number, approx: boolean): { us: string; grams: number } 
 export function formatButter(g: number, system: MeasureSystem, approx = false): string {
   if (!(g > 0)) return '0'
   const { us, grams } = butterParts(g, approx)
-  return system === 'metric' ? `${grams} g` : `${us} (${grams} g)`
+  return system === 'us' ? `${us} (${grams} g)` : `${grams} g`
 }
 
 // "6 – 7 tbsp (90–95 g)" rather than repeating the grams on each side
@@ -158,7 +177,7 @@ export function formatButterRange(lo: number, hi: number, system: MeasureSystem)
   const a = butterParts(lo, true)
   const b = butterParts(hi, true)
   const grams = a.grams === b.grams ? `${a.grams} g` : `${a.grams}–${b.grams} g`
-  if (system === 'metric') return grams
+  if (system !== 'us') return grams
   if (a.us === b.us) return `${a.us} (${grams})`
   // Share a trailing "tbsp" when both sides are plain tablespoons
   const lowText = /^\d+½? tbsp$/.test(a.us) && /^\d+½? tbsp$/.test(b.us) ? a.us.replace(' tbsp', '') : a.us

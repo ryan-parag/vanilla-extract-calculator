@@ -1,13 +1,16 @@
 import { Coffee, CoffeeBean } from '@phosphor-icons/react'
 import { CUP_ML } from '../lib/kitchenUnits'
+import { G_PER_ML } from '../lib/densities'
 import type { RatioRecipe } from './types'
 
 export const coffeeExtract: RatioRecipe = {
   base: {
     label: 'Vodka',
+    gPerMl: G_PER_ML.vodka,
     description: '80 proof (40% ABV) or stronger',
   },
   yieldLabel: 'Coffee extract',
+  yieldGPerMl: G_PER_ML.vodka,
   // Grounds hold on to a fair bit of liquid
   yieldRange: [0.75, 0.85],
   yieldFrom: 'base',

@@ -1,13 +1,16 @@
 import { Jar, Lightning } from '@phosphor-icons/react'
+import { G_PER_ML } from '../lib/densities'
 import type { RatioRecipe } from './types'
 
 // 1 tsp baking powder = ½ tsp cream of tartar + ¼ tsp baking soda (+ ¼ tsp cornstarch)
 export const bakingPowder: RatioRecipe = {
   base: {
     label: 'Cream of tartar',
+    gPerMl: G_PER_ML.creamOfTartar,
     description: 'The acid half of the mix',
   },
   yieldLabel: 'Baking powder',
+  yieldGPerMl: G_PER_ML.bakingPowder,
   // Leavening power, not volume: cornstarch adds bulk but no lift
   yieldRange: [2, 2],
   yieldFrom: 'base',
@@ -21,8 +24,8 @@ export const bakingPowder: RatioRecipe = {
       icon: Jar,
       recommended: true,
       additions: [
-        { id: 'soda', label: 'baking soda', mlPerBaseMl: 0.5 },
-        { id: 'starch', label: 'cornstarch', mlPerBaseMl: 0.5 },
+        { id: 'soda', label: 'baking soda', mlPerBaseMl: 0.5, gPerMl: G_PER_ML.bakingSoda },
+        { id: 'starch', label: 'cornstarch', mlPerBaseMl: 0.5, gPerMl: G_PER_ML.cornstarch },
       ],
     },
     {
@@ -30,7 +33,7 @@ export const bakingPowder: RatioRecipe = {
       label: 'Use right away',
       description: 'No cornstarch, mix and bake',
       icon: Lightning,
-      additions: [{ id: 'soda', label: 'baking soda', mlPerBaseMl: 0.5 }],
+      additions: [{ id: 'soda', label: 'baking soda', mlPerBaseMl: 0.5, gPerMl: G_PER_ML.bakingSoda }],
     },
   ],
   defaults: { mode: 'yield', value: 1, unit: 'tsp' },

@@ -18,10 +18,10 @@ interface RatioRecipePageProps {
   recipe: RatioRecipe
 }
 
-function formatRange(min: number, max: number, measure: Measure, system: MeasureSystem) {
+function formatRange(min: number, max: number, measure: Measure, system: MeasureSystem, gPerMl?: number) {
   if (measure === 'butter') return `about ${formatButterRange(min, max, system)}`
-  const lo = formatMeasure(min, measure, system, true)
-  const hi = formatMeasure(max, measure, system, true)
+  const lo = formatMeasure(min, measure, system, true, gPerMl)
+  const hi = formatMeasure(max, measure, system, true, gPerMl)
   return lo === hi ? `about ${lo}` : `about ${lo} – ${hi}`
 }
 
@@ -29,7 +29,7 @@ export function RatioRecipePage({ slug, name, recipe }: RatioRecipePageProps) {
   const calc = useRatioCalc(recipe, slug)
   const { result, system, variant } = calc
 
-  const baseAmount = formatMeasure(result.baseAmount, recipe.base.measure ?? 'volume', system)
+  const baseAmount = formatMeasure(result.baseAmount, recipe.base.measure ?? 'volume', system, false, recipe.base.gPerMl)
   const additionAmounts = Object.fromEntries(
     variant.additions.map(a => [a.id, formatAddition(a, result.baseAmount, system)]),
   )
@@ -48,12 +48,12 @@ export function RatioRecipePage({ slug, name, recipe }: RatioRecipePageProps) {
 
   const yieldLine = {
     label: recipe.yieldLineLabel ?? 'Makes',
-    amount: formatRange(result.yieldMin, result.yieldMax, recipe.yieldMeasure ?? 'volume', system),
+    amount: formatRange(result.yieldMin, result.yieldMax, recipe.yieldMeasure ?? 'volume', system, recipe.yieldGPerMl),
   }
 
   const byproductLines: IngredientLine[] = (recipe.byproducts ?? []).map(b => ({
     label: `Plus ${b.label.toLowerCase()}`,
-    amount: formatRange(result.baseAmount * b.range[0], result.baseAmount * b.range[1], b.measure ?? 'volume', system),
+    amount: formatRange(result.baseAmount * b.range[0], result.baseAmount * b.range[1], b.measure ?? 'volume', system, b.gPerMl),
   }))
 
   const steps = recipe.steps({ variant, base: baseAmount, additions: additionAmounts, yield: yieldLine.amount })

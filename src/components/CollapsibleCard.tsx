@@ -23,7 +23,7 @@ export function CollapsibleCard({ title, icon, children }: CollapsibleCardProps)
           {icon}
           <span className="text-lg font-bold">{title}</span>
         </div>
-        <motion.div animate={{ rotate: open ? 90 : 0 }} transition={{ duration: 0.2 }}>
+        <motion.div animate={{ rotate: open ? 90 : 0 }}>
           <CaretRight size={16} weight="bold" />
         </motion.div>
       </button>
@@ -31,7 +31,6 @@ export function CollapsibleCard({ title, icon, children }: CollapsibleCardProps)
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          transition={{ duration: 0.2 }}
           className="px-4 py-3"
         >
           {children}

@@ -1,5 +1,6 @@
 import { Flask, OrangeSlice } from '@phosphor-icons/react'
 import { TBSP_ML } from '../lib/kitchenUnits'
+import { G_PER_ML } from '../lib/densities'
 import type { RatioRecipe } from './types'
 
 // 1 cup buttermilk = 1 tbsp acid topped up with milk to 1 cup (15 tbsp)
@@ -8,9 +9,11 @@ const ACID_PER_MILK = TBSP_ML / (TBSP_ML * 15)
 export const buttermilk: RatioRecipe = {
   base: {
     label: 'Milk',
+    gPerMl: G_PER_ML.milk,
     description: 'Whole milk thickens best',
   },
   yieldLabel: 'Buttermilk',
+  yieldGPerMl: G_PER_ML.buttermilk,
   yieldRange: [1, 1],
   variantHeading: 'Acid',
   variants: [
@@ -20,14 +23,14 @@ export const buttermilk: RatioRecipe = {
       description: 'Fresh, slightly fruity',
       icon: OrangeSlice,
       recommended: true,
-      additions: [{ id: 'acid', label: 'lemon juice', mlPerBaseMl: ACID_PER_MILK }],
+      additions: [{ id: 'acid', label: 'lemon juice', mlPerBaseMl: ACID_PER_MILK, gPerMl: G_PER_ML.lemonJuice }],
     },
     {
       id: 'vinegar',
       label: 'White vinegar',
       description: 'Neutral, always in the pantry',
       icon: Flask,
-      additions: [{ id: 'acid', label: 'white vinegar', mlPerBaseMl: ACID_PER_MILK }],
+      additions: [{ id: 'acid', label: 'white vinegar', mlPerBaseMl: ACID_PER_MILK, gPerMl: G_PER_ML.vinegar }],
     },
   ],
   defaults: { mode: 'yield', value: 1, unit: 'cup' },

@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { motion } from 'motion/react'
 import { Flask, House, Info } from '@phosphor-icons/react'
 import { useHashRoute } from './hooks/useHashRoute'
 import { useThemePreference } from './hooks/usePreference'
@@ -11,6 +12,7 @@ import { RatioRecipePage } from './pages/RatioRecipePage'
 import { Sidebar } from './components/nav/Sidebar'
 import { MobileNav } from './components/nav/MobileNav'
 import { SITE_NAME } from './components/nav/Brand'
+import { fadeUp } from './lib/motion'
 
 // Applies the light/system/dark preference, and always prints light
 function useTheme() {
@@ -61,7 +63,14 @@ export default function App() {
       <MobileNav current={current} label={mobileLabel} theme={theme} onThemeChange={setTheme} />
 
       <div className="flex-1 min-w-0">
-        <div className="max-w-5xl mx-auto px-4 lg:px-8 py-8 print:p-0 print:max-w-none">
+        {/* Keyed by route so each page eases in as you navigate */}
+        <motion.div
+          key={current || 'home'}
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          className="max-w-5xl mx-auto px-4 lg:px-8 py-8 print:p-0 print:max-w-none"
+        >
           {page && (
             <header className="mb-8">
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-zinc-950 dark:text-white tracking-tight">
@@ -113,7 +122,7 @@ export default function App() {
               </a>
             </footer>
           )}
-        </div>
+        </motion.div>
       </div>
     </div>
   )

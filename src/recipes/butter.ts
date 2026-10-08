@@ -1,10 +1,12 @@
 import { Drop, Jar } from '@phosphor-icons/react'
 import { CUP_ML, TBSP_ML } from '../lib/kitchenUnits'
+import { G_PER_ML } from '../lib/densities'
 import type { RatioRecipe } from './types'
 
 export const butter: RatioRecipe = {
   base: {
     label: 'Heavy cream',
+    gPerMl: G_PER_ML.cream,
     description: '36%+ fat; more fat means more butter',
   },
   yieldLabel: 'Butter',
@@ -12,7 +14,7 @@ export const butter: RatioRecipe = {
   // Grams of butter per ml of cream
   yieldRange: [0.36, 0.42],
   yieldFrom: 'base',
-  byproducts: [{ label: 'Buttermilk', range: [0.45, 0.55] }],
+  byproducts: [{ label: 'Buttermilk', range: [0.45, 0.55], gPerMl: G_PER_ML.buttermilk }],
   variantHeading: 'Style',
   variants: [
     {
@@ -28,7 +30,7 @@ export const butter: RatioRecipe = {
       label: 'Cultured',
       description: 'Tangy, European-style',
       icon: Jar,
-      additions: [{ id: 'culture', label: 'Cultured buttermilk', mlPerBaseMl: TBSP_ML / CUP_ML }],
+      additions: [{ id: 'culture', label: 'Cultured buttermilk', mlPerBaseMl: TBSP_ML / CUP_ML, gPerMl: G_PER_ML.buttermilk }],
     },
   ],
   defaults: { mode: 'base', value: 2, unit: 'cup', yieldValue: 1, yieldUnit: 'stick' },

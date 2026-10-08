@@ -4,8 +4,9 @@ import type { AnyUnit, Measure } from '../lib/measures'
 // An ingredient added in proportion to the base (e.g. lemon juice per cup of cream).
 // Measured by volume, by weight (mint leaves), or by count (lemons, vanilla beans).
 // "BaseMl" is per ml of base, or per gram when the base is measured as butter.
+// `gPerMl` (from lib/densities) lets volume amounts be shown by weight.
 export type Addition = { id: string; label: string } & (
-  | { mlPerBaseMl: number }
+  | { mlPerBaseMl: number; gPerMl?: number }
   | { gramsPerBaseMl: number }
   | {
       countPerBaseMl: number
@@ -47,13 +48,16 @@ export interface Byproduct {
   // Amount per unit of base, in `measure`'s units (min, max)
   range: [number, number]
   measure?: Measure
+  gPerMl?: number
 }
 
 export interface RatioRecipe {
   // `measure` defaults to volume
-  base: { label: string; description: string; measure?: Measure }
+  // `gPerMl` on volume amounts lets them be shown by weight
+  base: { label: string; description: string; measure?: Measure; gPerMl?: number }
   yieldLabel: string
   yieldMeasure?: Measure
+  yieldGPerMl?: number
   // Finished amount per unit of `yieldFrom`, in `yieldMeasure`'s units (min, max)
   yieldRange: [number, number]
   // 'total' = base + additions (default); 'base' = base alone, e.g. when molasses just coats the sugar

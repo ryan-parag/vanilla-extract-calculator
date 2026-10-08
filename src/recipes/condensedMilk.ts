@@ -1,12 +1,15 @@
 import { CookingPot } from '@phosphor-icons/react'
+import { G_PER_ML } from '../lib/densities'
 import type { RatioRecipe } from './types'
 
 export const condensedMilk: RatioRecipe = {
   base: {
     label: 'Whole milk',
+    gPerMl: G_PER_ML.milk,
     description: 'Lower-fat milk works but turns out thinner',
   },
   yieldLabel: 'Condensed milk',
+  yieldGPerMl: G_PER_ML.condensedMilk,
   // Reduced by roughly 40%
   yieldRange: [0.6, 0.65],
   yieldFrom: 'base',
@@ -17,7 +20,7 @@ export const condensedMilk: RatioRecipe = {
       description: 'Milk and sugar',
       icon: CookingPot,
       // ⅔ cup sugar per 2 cups milk
-      additions: [{ id: 'sugar', label: 'Granulated sugar', mlPerBaseMl: 1 / 3 }],
+      additions: [{ id: 'sugar', label: 'Granulated sugar', mlPerBaseMl: 1 / 3, gPerMl: G_PER_ML.sugar }],
     },
   ],
   defaults: { mode: 'yield', value: 1.25, unit: 'cup' },
