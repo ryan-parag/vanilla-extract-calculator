@@ -90,11 +90,10 @@ export function AnimatedAvatar({
           className={`z-10 transform scale-110 top-1 rounded-full overflow-hidden absolute inset-0 h-full w-full object-cover ${i === shown ? 'opacity-100' : 'opacity-0'}`}
         />
       ))}
-      <img src={"/abstract-bg.png"} alt="" aria-hidden className="opacity-20 dark:opacity-40 absolute inset-0 h-full w-full object-cover z-0" />
-      <div className="absolute top-0 left-2 blur-lg bg-yellow-500 w-3 h-3 z-0"/>
-      <div className="absolute top-4 left-0 blur-md bg-indigo-500 w-4 h-4 z-0"/>
-      <div className="absolute top-5 right-0 blur-xl bg-pink-500 w-5 h-5 z-0"/>
-      <div className="absolute bottom-2 right-2 blur-2xl bg-emerald-500 w-8 h-8 z-0"/>
+      <div className="absolute top-0 left-0 right-0 bottom-0 rounded-full bg-gradient-to-b from-amber-500 via-emerald-500 to-blue-500 transform rotate-45 opacity-30 blur-sm"/>
+      <div className="absolute top-0 left-0 right-0 bottom-0 rounded-full bg-gradient-to-b from-pink-500 to-transparent opacity-50 blur-sm animate-spin" style={{ animationDuration: '4000ms' }}/>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 blur-lg bg-white w-8 h-8 z-0"/>
+      
     </div>
   )
 }

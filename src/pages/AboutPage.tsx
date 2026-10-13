@@ -30,7 +30,7 @@ export function AboutPage() {
           frames={['avatar_1.png', 'avatar_2.png', 'avatar_3.png']}
           blinkFrame="avatar_blink.png"
           alt="Ryan Parag"
-          className="h-20 w-20 rounded-full border-2 border-black/10 dark:border-white/10 bg-white dark:bg-white/50"
+          className="h-20 w-20 rounded-full border-2 border-black/20 dark:border-white/20 bg-white dark:bg-white/80 shadow-inner"
         />
         <p>👋 Hey, I'm <a href="https://ryanparag.com" target="_blank" rel="noopener noreferrer" className="underline">Ryan Parag</a>!
         </p>
