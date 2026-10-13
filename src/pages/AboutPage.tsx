@@ -3,17 +3,18 @@ import { Flask, Lock, Ruler, Scales, Warning } from '@phosphor-icons/react'
 import { PAGES } from '../recipes'
 import { CUP_ML, TSP_ML } from '../lib/kitchenUnits'
 import { DENSITY_REFERENCE } from '../lib/densities'
+import { AnimatedAvatar } from '../components/AnimatedAvatar'
 
 function Section({ icon, title, children }: { icon: ReactNode; title: string; children: ReactNode }) {
   return (
-    <section className="card p-5 space-y-3">
+    <section className="space-y-3 py-4">
       <h2 className="flex items-center gap-2 text-lg font-bold text-zinc-900 dark:text-zinc-100">
         <span className="h-8 w-8 inline-flex items-center justify-center rounded-full bg-accent-500/20 text-accent-700 dark:text-accent-300">
           {icon}
         </span>
         {title}
       </h2>
-      <div className="space-y-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{children}</div>
+      <div className="space-y-3 text-base leading-relaxed text-zinc-600 dark:text-zinc-400">{children}</div>
     </section>
   )
 }
@@ -23,11 +24,14 @@ export function AboutPage() {
   const untested = PAGES.filter(p => p.untested)
 
   return (
-    <div className="space-y-5 max-w-3xl">
+    <div className="space-y-8 w-full max-w-3xl">
       <div className="p-6 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-transparent text-zinc-900 dark:text-white flex flex-col gap-2">
-        <div className="h-16 w-16 rounded-full overflow-hidden relative border-2 border-black/10 dark:border-white/10">
-          <img src="profile.png" alt="Ryan Parag" className="absolute inset-0 w-full h-full object-cover" />
-        </div>
+        <AnimatedAvatar
+          frames={['avatar_1.png', 'avatar_2.png', 'avatar_3.png']}
+          blinkFrame="avatar_blink.png"
+          alt="Ryan Parag"
+          className="h-20 w-20 rounded-full border-2 border-black/10 dark:border-white/10 bg-white dark:bg-white/50"
+        />
         <p>👋 Hey, I'm <a href="https://ryanparag.com" target="_blank" rel="noopener noreferrer" className="underline">Ryan Parag</a>!
         </p>
         <p>I'm a product designer living in Sunny 🌞 Tampa Bay. I strive to help build useful products with an interdisciplinary skillset, bred from my fascination of systems, art, and code.</p>
